@@ -1,14 +1,15 @@
 import Footer from "../components/Footer";
+import HomeContainer from "../components/HomeContainer";
 import Navbar from "../components/Navbar";
+import '../css/Home.css'
 
 const Home = () => {
     return (
-        <div>
+        <>
             <Navbar></Navbar>
-            <h1>Welcome to the Home Page</h1>
-            <p>This is the main page of our application.</p>
+            <HomeContainer></HomeContainer>
             <Footer></Footer>
-        </div>
+        </>
     );
 }
 

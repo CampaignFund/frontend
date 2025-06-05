@@ -1,12 +1,23 @@
+import { useEffect, useState } from 'react';
+import '../css/Navbar.css'
+
 const Navbar = ()=> {
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(()=>{
+    const handleScroll = ()=>{
+      setIsScrolled(window.scrollY>0);
+    }
+
+    window.addEventListener('scroll', handleScroll);
+  },[isScrolled]);
+
   return (
-    <nav className="navbar">
-      <div className="navbar__logo">
-        <a href="/">MyApp</a>
-      </div>
-      <ul className="navbar__links">
-        <li><a href="/">Home</a></li>
+    <nav className={`navbar ${isScrolled ? 'shadow':''}`}>
+      <ul className="navbarLinks">
+        <li><a href="/">Search</a></li>
         <li><a href="/about">About</a></li>
+        <li><a href="/">Campagin Fund</a></li>
         <li><a href="/signin">Sign in</a></li>
         <li><a href="/contact">Contact</a></li>
       </ul>

@@ -1,0 +1,8 @@
+:root {
+  --color-primary: #144861;     /* Dark Blue - primary buttons, headers */
+  --color-accent: #5DD488;      /* Green - highlights, CTAs */
+  --color-background: #EFEFEF;  /* Light Gray - section backgrounds */
+  --color-surface: #FFFFFF;     /* White - cards, containers, base background */
+  --color-text-dark: #144861;   /* For dark text on light backgrounds */
+  --color-text-light: #FFFFFF;  /* For light text on dark backgrounds */
+}
