@@ -11,5 +11,6 @@
     align-items: center;
     min-height: 90vh;
     width: 100%;
-    background-color: var(--color-surface)
+    background-color: var(--color-surface);
+    padding:0 10vw;
 }

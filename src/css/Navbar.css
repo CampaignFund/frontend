@@ -1,7 +1,6 @@
 * {
   padding: 0;
   margin: 0;
-  box-sizing: border-box;
   font-family: 'Poppins', sans-serif;
 }
 
@@ -18,11 +17,12 @@ a {
 .navbar {
   width: 100%;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  padding: 0 2%;
+  padding: 0 1.5rem;
   position: fixed;
   background: transparent;
+  z-index: 10;
 }
 
 .navbar.shadow {
@@ -31,66 +31,77 @@ a {
   background-color: var(--color-surface);
 }
 
-.navbar .navbarLinks {
+.navbar-toggle {
+  display: none;
+  font-size: 1.8rem;
+  color: var(--color-primary);
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.navbar .navbarLinks.desktop {
   width: 100%;
   height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 1% 10%;
+  gap: 0.7%;
+  margin: 1% 1%;
 }
 
 .navbar .navbarLinks li {
   display: flex;
   justify-content: center;
   align-content: center;
-  padding: 0.8% 1%;
+  padding: 0.8% 0.8%;
   border-radius: 0.8rem;
-  margin: 0 1%;
-  position: relative; 
+  margin: 0;
+  position: relative;
 }
 
-.navbar .navbarLinks li:not(:nth-child(3)):hover {
+.navbar .navbarLinks li:not(:nth-child(4)):hover {
   background-color: var(--color-background);
 }
 
-.navbar .navbarLinks li:nth-child(3) {
+.navbar .navbarLinks li:nth-child(4) {
   margin: 0 15%;
 }
 
-.navbar .navbarLinks li:nth-child(3) a {
+.navbar .navbarLinks li:nth-child(4) a {
   color: var(--color-accent);
   font-weight: 800;
   font-size: 1.3rem;
 }
 
-.navbarLinks .about-dropdown {
+.navbarLinks .dropdown-container {
   position: relative;
 }
 
-.navbarLinks .about-dropdown .dropdown-menu {
+.navbarLinks .dropdown-container .dropdown-menu {
   display: none;
   position: absolute;
-  top: 100%;           
-  left: 0;             
+  top: 100%;
+  left: 0;
   background: var(--color-surface);
   box-shadow: 0 0.1rem 0.6rem rgba(0, 0, 0, 0.1);
-  min-width: 150px;    
+  min-width: 150px;
   flex-direction: column;
+  padding: 0.6rem;
+  border-radius: 0.5rem;
   z-index: 100;
-  border-radius: 0.4rem;
   overflow: hidden;
 }
 
-.navbarLinks .about-dropdown:hover .dropdown-menu {
+.navbarLinks .dropdown-container:hover .dropdown-menu {
   display: flex;
 }
 
-.navbarLinks .about-dropdown .dropdown-menu li {
+.navbarLinks .dropdown-container .dropdown-menu li {
   width: 100%;
 }
 
-.navbarLinks .about-dropdown .dropdown-menu li a {
+.navbarLinks .dropdown-container .dropdown-menu li a {
   display: block;
   padding: 0.6rem 1rem;
   font-size: 0.8rem;
@@ -98,16 +109,159 @@ a {
   white-space: nowrap;
 }
 
-.navbarLinks .about-dropdown .dropdown-menu li a:hover {
+.navbarLinks .dropdown-container .dropdown-menu li a:hover {
   background-color: var(--color-background);
 }
 
-.navbarLinks .about-dropdown .about-dropdown-icon {
-    display: inline-block;
-    rotate: 180deg;
-    transition: transform 0.3s ease-in-out;
+.navbarLinks .dropdown-container .dropdown-container-icon {
+  display: inline-block;
+  rotate: 180deg;
+  transition: transform 0.3s ease-in-out;
 }
 
-.navbarLinks .about-dropdown:hover .about-dropdown-icon {
-    transform: rotateZ(180deg);
+.navbarLinks .dropdown-container:hover .dropdown-container-icon {
+  transform: rotateZ(180deg);
 }
+
+.start-fund {
+  border: 1px black solid;
+  text-align: center;
+  font-weight: bold;
+}
+
+.navbarLinks.sidebar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 70%;
+  background-color: var(--color-surface);
+  padding: 2rem 1rem 1rem 1rem;
+  gap: 1rem;
+  z-index: 100;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
+  transform: translateX(-100%);
+  transition: transform 0.3s ease-in-out;
+  overflow-y: auto;
+}
+
+.navbarLinks.sidebar.open {
+  transform: translateX(0);
+}
+
+.navbarLinks.sidebar li {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 0.8rem 0;
+  border-radius: 0.5rem;
+}
+
+.navbarLinks.sidebar li a {
+  width: 100%;
+  text-align: center;
+  font-size: 1rem;
+  display: block;
+  padding: 0.5rem 1rem;
+}
+
+.navbarLinks.sidebar li:hover {
+  background-color: var(--color-background);
+}
+
+.sidebar-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-size: 1.5rem;
+  cursor: pointer;
+  background: none;
+  border: none;
+  color: var(--color-primary);
+  z-index: 101;
+}
+
+@media (max-width: 1024px) {
+  .navbar .navbarLinks.desktop {
+    gap: 1.5%;
+    margin: 2% 2%;
+  }
+
+  .navbar .navbarLinks li:nth-child(4) {
+    margin: 0 10%;
+  }
+
+  .navbar .navbarLinks li:nth-child(4) a {
+    font-size: 1.2rem;
+  }
+
+  .navbarLinks .dropdown-container .dropdown-menu {
+    min-width: 130px;
+    padding: 0.5rem;
+  }
+
+  .navbarLinks .dropdown-container .dropdown-menu li a {
+    padding: 0.5rem 0.8rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar-toggle {
+    display: block;
+  }
+
+  .navbar .navbarLinks.desktop {
+    display: none;
+  }
+
+  .navbar {
+    padding: 0 1.5rem;
+  }
+
+  .navbar .navbarLinks li{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .navbar .navbarLinks li:nth-child(2) {
+    margin: 0;
+  }
+  .navbar .navbarLinks li:not(:nth-child(2), :first-child) a{
+    width: 100%;
+    padding: 0rem 0.5rem;
+    color: var(--color-primary);
+    font-size: 1rem;
+    font-weight: 500;
+  }
+
+  .navbar .navbarLinks li:nth-child(2) a {
+    font-size: 1.1rem;
+    color: var(--color-accent);
+    font-weight: bold;
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar {
+    flex-direction: row;
+    align-items: center;
+    padding: 0.8rem 1rem;
+  }
+
+  .navbar .navbarLinks li:not(:nth-child(2), :first-child) a{
+    width: 100%;
+    padding: 0rem 0.5rem;
+    color: var(--color-primary);
+    font-size: 1rem;
+    font-weight: 500;
+  }
+
+  .navbar .navbarLinks li:nth-child(2) a {
+    font-size: 1.1rem;
+    color: var(--color-accent);
+  }
+}   
