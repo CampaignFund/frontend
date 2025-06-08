@@ -64,10 +64,10 @@ const Navbar = () => {
           <IoMdArrowDropdown className='dropdown-container-icon' />
           <ul className='dropdown-menu'>
             <li><a href="/donate">Donate</a></li>
-            <li><a href="/donate/category">Categories</a></li>
+            <li><a href="/discover">Categories</a></li>
           </ul>
         </li>
-        <li><a href="/">Campagin Fund</a></li>
+        <li><a href="/">Campaign Fund</a></li>
         <li><a href="/signin">Sign in</a><CiLogin /></li>
         <li><a href="/contact">Contact</a></li>
         <li className='start-fund'><a href="/campaign">Start Fund</a></li>
@@ -78,12 +78,12 @@ const Navbar = () => {
           <IoMdClose />
         </button>
 
-        <li><a href="/">Campagin Fund</a></li>
+        <li><a href="/">Campaign Fund</a></li>
         <li><a href="/search"><CiSearch /> Search</a></li>
         <li><a href="/about/mission">Mission</a></li>
         <li><a href="/about/partners">Partners</a></li>
         <li><a href="/donate">Donate</a></li>
-        <li><a href="/donate/category">Categories</a></li>
+        <li><a href="/discover">Categories</a></li>
         <li><a href="/signin">Sign in <CiLogin /></a></li>
         <li><a href="/contact">Contact</a></li>
         <li className='start-fund'><a href="/campaign">Start Fund</a></li>

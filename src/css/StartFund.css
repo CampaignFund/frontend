@@ -1,0 +1,188 @@
+.start-fund-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100vh;
+    background: url('/CFund_7.jpg');
+    background-size:cover;
+}
+
+.start-fund-page {
+  width: 600px;
+  max-height: 90%;
+  padding: 2rem;
+  background: var(--color-surface);
+  border-radius: 0.8rem;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+  color: var(--color-text-dark);
+  font-family: 'Poppins', sans-serif;
+  overflow: scroll;
+}
+
+.start-fund-page h1 {
+  text-align: center;
+  margin-bottom: 2rem;
+  color: var(--color-primary);
+}
+
+.home-icon {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  font-size: 1.5rem;
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+.home-icon:hover {
+  color: var(--color-accent);
+}
+
+.stepper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.step {
+  display: flex;
+  align-items: center;
+}
+
+.circle {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background: #ddd;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background var(--transition-fast);
+}
+
+.step.active .circle {
+  background: var(--color-accent);
+}
+
+.line {
+  width: 4rem;
+  height: 2px;
+  background: #ddd;
+  margin: 0 0.5rem;
+}
+
+.step.active .line {
+  background: var(--color-accent);
+}
+
+.step-content label {
+  display: block;
+  margin-bottom: 1.5rem;
+}
+
+.step-content input,
+.step-content textarea {
+  width: 100%;
+  padding: 0.6rem;
+  margin-top: 0.4rem;
+  border: 1px solid #ccc;
+  border-radius: 0.4rem;
+  font-size: 1rem;
+  transition: border-color var(--transition-fast);
+}
+
+.step-content textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+.step-content input:focus,
+.step-content textarea:focus {
+  border-color: var(--color-primary);
+  outline: none;
+}
+
+.review h2 {
+  margin-bottom: 1rem;
+  color: var(--color-primary);
+}
+
+.review p {
+  margin: 0.5rem 0;
+}
+
+.review img {
+  max-width: 100%;
+  border-radius: 0.5rem;
+  margin: 1rem 0;
+}
+
+.review h3 {
+  margin-top: 1.5rem;
+  color: var(--color-primary);
+  margin-bottom: 1rem;
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2rem;
+}
+
+.btn {
+  padding: 0.7rem 1.5rem;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-weight: 600;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.next {
+  background: var(--color-accent);
+  color: var(--color-text-light);
+}
+
+.back {
+  background: #eee;
+  color: var(--color-text-dark);
+}
+
+.submit {
+  background: var(--color-primary);
+  color: var(--color-text-light);
+  flex: 1;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+}
+
+@media (max-width:786px){
+    .start-fund-page{
+        margin: 0 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .start-fund-page{
+        scale: 0.9;
+        margin: 0 0.4rem;
+    }
+    .stepper{
+        scale: 0.7;
+    }
+  .buttons {
+    flex-direction: column-reverse;
+    gap: 1rem;
+  }
+  .btn {
+    width: 100%;
+    text-align: center;
+  }
+}
