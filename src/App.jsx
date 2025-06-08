@@ -6,6 +6,7 @@ import Search from "./pages/Search";
 import Donate from "./pages/Donate";
 import Discover from "./pages/Category";
 import StartFund from "./pages/StartFund";
+import Profile from "./pages/Profile";
 
 const App = ()=>{
   return (
@@ -15,6 +16,7 @@ const App = ()=>{
         <Route path="/signin" element={<Signin/>} />
         <Route path="/search" element={<Search/>} />
         <Route path="/donate" element={<Donate/>} />
+        <Route path="/profile" element={<Profile/>} />
         <Route path="/discover" element={<Discover/>} />
         <Route path="/campaign" element={<StartFund/>} />
         <Route path="*" element={<PageNotFound/>} />

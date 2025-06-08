@@ -163,6 +163,45 @@
   box-shadow: 0 6px 16px rgba(0,0,0,0.1);
 }
 
+.custom-select {
+  max-width: 100%;
+  position: relative;
+  margin-bottom: 1.5rem;
+}
+
+.custom-select select {
+  width: 100%;
+  padding: 0.6rem 2.5rem 0.6rem 0.8rem;
+  border: 1px solid #ccc;
+  border-radius: 0.4rem;
+  background-color: var(--color-surface);
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  font-size: 1rem;
+  transition: border-color var(--transition-fast);
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.custom-select select:focus {
+  border-color: var(--color-primary);
+  outline: none;
+}
+
+
+.custom-select::after {
+  content: '▼';
+  position: absolute;
+  top: 50%;
+  right: 0.8rem;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: var(--color-accent);
+  font-size: 0.8rem;
+  z-index: 1;
+}
+
 @media (max-width:786px){
     .start-fund-page{
         margin: 0 1rem;
@@ -177,6 +216,10 @@
     .stepper{
         scale: 0.7;
     }
+    .custom-select select {
+    font-size: 0.9rem;
+    padding-right: 2rem;
+  }
   .buttons {
     flex-direction: column-reverse;
     gap: 1rem;

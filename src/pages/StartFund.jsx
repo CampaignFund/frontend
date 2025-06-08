@@ -1,4 +1,3 @@
-// src/pages/StartFund.jsx
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FiHome } from 'react-icons/fi';
@@ -7,6 +6,8 @@ import '../css/StartFund.css';
 export default function StartFund() {
   const [step, setStep] = useState(1);
   const [form, setForm] = useState({
+    country: '',
+    zip: '',
     title: '',
     category: '',
     goal: '',
@@ -18,7 +19,7 @@ export default function StartFund() {
     ifsc: ''
   });
 
-  const next = () => setStep(s => Math.min(4, s + 1));
+  const next = () => setStep(s => Math.min(5, s + 1));
   const back = () => setStep(s => Math.max(1, s - 1));
   const handleChange = e => {
     const { name, value, files } = e.target;
@@ -29,21 +30,39 @@ export default function StartFund() {
     console.log(form);
   };
 
+  const countries = ['United States', 'India', 'United Kingdom', 'Canada', 'Australia'];
+
   return (
     <div className="start-fund-container">
       <div className="start-fund-page">
         <Link to="/" className="home-icon"><FiHome /></Link>
         <h1>Start a Fundraising Campaign</h1>
         <div className="stepper">
-          {[1, 2, 3, 4].map(n => (
+          {[1, 2, 3, 4, 5].map(n => (
             <div key={n} className={`step ${step >= n ? "active" : ""}`}>
               <div className="circle">{n}</div>
-              {n < 4 && <div className="line" />}
+              {n < 5 && <div className="line" />}
             </div>
           ))}
         </div>
         <form onSubmit={handleSubmit}>
           {step === 1 && (
+            <div className="step-content">
+              <label>Country
+                <div className="custom-select">
+                  <select name="country" value={form.country} onChange={handleChange} required>
+                    <option value="">Select country</option>
+                    {countries.map(c => <option key={c} value={c}>{c}</option>)}
+                  </select>
+                </div>
+              </label>
+              <label>ZIP / Postal Code
+                <input name="zip" value={form.zip} onChange={handleChange} required />
+              </label>
+            </div>
+          )}
+
+          {step === 2 && (
             <div className="step-content">
               <label>Campaign Title
                 <input name="title" value={form.title} onChange={handleChange} required />
@@ -56,7 +75,7 @@ export default function StartFund() {
               </label>
             </div>
           )}
-          {step === 2 && (
+          {step === 3 && (
             <div className="step-content">
               <label>Story Description
                 <textarea name="story" value={form.story} onChange={handleChange} required />
@@ -66,7 +85,7 @@ export default function StartFund() {
               </label>
             </div>
           )}
-          {step === 3 && (
+          {step === 4 && (
             <div className="step-content">
               <label>Account Holder Name
                 <input name="accountName" value={form.accountName} onChange={handleChange} required />
@@ -82,9 +101,11 @@ export default function StartFund() {
               </label>
             </div>
           )}
-          {step === 4 && (
+          {step === 5 && (
             <div className="step-content review">
               <h2>Review Your Campaign</h2>
+              <p><strong>Country:</strong> {form.country}</p>
+              <p><strong>ZIP:</strong> {form.zip}</p>
               <p><strong>Title:</strong> {form.title}</p>
               <p><strong>Category:</strong> {form.category}</p>
               <p><strong>Goal:</strong> ${form.goal}</p>
@@ -99,7 +120,7 @@ export default function StartFund() {
           )}
           <div className="buttons">
             {step > 1 && <button type="button" className="btn back" onClick={back}>Back</button>}
-            {step < 4
+            {step < 5
               ? <button type="button" className="btn next" onClick={next}>Next</button>
               : <button type="submit" className="btn submit">Submit</button>
             }

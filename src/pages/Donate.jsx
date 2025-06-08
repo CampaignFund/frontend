@@ -2,10 +2,12 @@ import { useState } from 'react';
 import '../css/Donate.css';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
+import DonateModal from '../components/DonationPayment';
 
 const Donate = () => {
     const goal = 5000;
     const [collected, setCollected] = useState(2350);
+    const [isModalOpen, setModalOpen] = useState(false);
 
     const handleDonate = () => {
         const amount = parseInt(prompt('Enter donation amount:'), 10);
@@ -13,6 +15,10 @@ const Donate = () => {
             setCollected(prev => Math.min(prev + amount, goal));
         }
     };
+
+    const handleOpenPayment = ()=> setModalOpen(true);
+
+    const handleClosePayment = ()=> setModalOpen(false);
 
     const handleShare = ()=>{
         console.log("Sharing...");
@@ -47,7 +53,7 @@ const Donate = () => {
                         style={{ width: `${percent}%` }}
                     />
                 </div>
-                <button className="donate-button" onClick={handleDonate}>
+                <button className="donate-button" onClick={handleOpenPayment}>
                     Donate Now
                 </button>
                 <button className="share-button" onClick={handleShare}>
@@ -55,6 +61,7 @@ const Donate = () => {
                 </button>
             </div>
         </div>
+        <DonateModal isOpen={isModalOpen} onClose={handleClosePayment} onDonate={handleDonate}></DonateModal>
         <Footer></Footer>
     </>);
 }
