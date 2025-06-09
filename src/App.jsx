@@ -7,6 +7,8 @@ import Donate from "./pages/Donate";
 import Discover from "./pages/Category";
 import StartFund from "./pages/StartFund";
 import Profile from "./pages/Profile";
+import Fundraisers from "./pages/Fundraisers";
+import Dashboard from "./pages/AdminDashboard";
 
 const App = ()=>{
   return (
@@ -15,10 +17,12 @@ const App = ()=>{
         <Route path="/" element={<Home/>} />
         <Route path="/signin" element={<Signin/>} />
         <Route path="/search" element={<Search/>} />
-        <Route path="/donate" element={<Donate/>} />
+        <Route path="/donate/:id" element={<Donate/>} />
+        <Route path="/fundraisers" element={<Fundraisers/>} />
         <Route path="/profile" element={<Profile/>} />
         <Route path="/discover" element={<Discover/>} />
         <Route path="/campaign" element={<StartFund/>} />
+        <Route path="/admin-dashboard" element={<Dashboard/>} />
         <Route path="*" element={<PageNotFound/>} />
       </Routes>
     </Router>

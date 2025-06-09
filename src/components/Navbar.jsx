@@ -11,7 +11,7 @@ const Navbar = () => {
     id: 1,
     name: "John Doe",
     email: "email@example.com",
-    role: 'user',
+    role: 'admin',
   }
 
   const sidebarRef = useRef(null);
@@ -56,8 +56,8 @@ const Navbar = () => {
 
       {/* Desktop Menu */}
       <ul className="navbarLinks desktop">
-        <li><CiSearch /><a href="/search">Search</a></li>
-        <li className='dropdown-container'>
+        <li id='nav-li'><CiSearch /><a href="/search">Search</a></li>
+        <li id='nav-li' className='dropdown-container'>
           <a href="#">About</a>
           <IoMdArrowDropdown className='dropdown-container-icon' />
           <ul className='dropdown-menu'>
@@ -65,26 +65,27 @@ const Navbar = () => {
             <li><a href="/about/partners">Partners</a></li>
           </ul>
         </li>
-        <li className='dropdown-container'>
+        <li id='nav-li' className='dropdown-container'>
           <a href="#">Donation</a>
           <IoMdArrowDropdown className='dropdown-container-icon' />
           <ul className='dropdown-menu'>
-            <li><a href="/donate">Donate</a></li>
+            <li><a href="/fundraisers">Fundraisers</a></li>
             <li><a href="/discover">Categories</a></li>
           </ul>
         </li>
-        <li><a href="/">Campaign Fund</a></li>
-        {user?.id ? (<li className='dropdown-container'>
+        <li id='nav-li'><a href="/">Campaign Fund</a></li>
+        {user?.id ? (<li id='nav-li' className='dropdown-container'>
           <a href="#">{user.name}</a>
           <IoMdArrowDropdown className='dropdown-container-icon' />
           <ul className='dropdown-menu'>
             <li><a href="/profile">Profile</a></li>
             <li><a href="/profile/funds">My Funds</a></li>
+            {user.role==='admin' && <li><a href="/admin-dashboard">Admin Dashboard</a></li>}
             <li><a href="#">Logout</a></li>
           </ul>
         </li>) : (<li><a href="/signin">Sign in</a><CiLogin /></li>)}
-        <li><a href="/contact">Contact</a></li>
-        <li className='start-fund'><a href="/campaign">Start Fund</a></li>
+        <li id='nav-li'><a href="/contact">Contact</a></li>
+        <li id='nav-li' className='start-fund'><a href="/campaign">Start Fund</a></li>
       </ul>
 
       <ul ref={sidebarRef} className={`navbarLinks sidebar ${isSidebarOpen ? 'open' : ''}`}>
@@ -94,9 +95,10 @@ const Navbar = () => {
 
         <li><a href="/">Campaign Fund</a></li>
         <li><a href="/search"><CiSearch /> Search</a></li>
+        {user.role==='admin' && <li><a href="/admin-dashboard">Admin Dashboard</a></li>}
         <li><a href="/about/mission">Mission</a></li>
         <li><a href="/about/partners">Partners</a></li>
-        <li><a href="/donate">Donate</a></li>
+        <li><a href="/fundraisers">Fundraisers</a></li>
         <li><a href="/discover">Categories</a></li>
         {user?.id ? (<>
           <li><a href="/profile">Profile</a></li>

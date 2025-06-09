@@ -50,7 +50,7 @@ a {
   margin: 1% 1%;
 }
 
-.navbar .navbarLinks li {
+.navbar .navbarLinks #nav-li {
   display: flex;
   justify-content: center;
   align-content: center;
@@ -60,15 +60,15 @@ a {
   position: relative;
 }
 
-.navbar .navbarLinks li:not(:nth-child(4)):hover {
+.navbar .navbarLinks #nav-li:not(:nth-child(4)):hover {
   background-color: var(--color-background);
 }
 
-.navbar .navbarLinks li:nth-child(4) {
+.navbar .navbarLinks #nav-li:nth-child(4) {
   margin: 0 15%;
 }
 
-.navbar .navbarLinks li:nth-child(4) a {
+.navbar .navbarLinks #nav-li:nth-child(4) a {
   color: var(--color-accent);
   font-weight: 800;
   font-size: 1.3rem;
@@ -87,7 +87,8 @@ a {
   box-shadow: 0 0.1rem 0.6rem rgba(0, 0, 0, 0.1);
   min-width: 150px;
   flex-direction: column;
-  padding: 0.6rem;
+  gap:0.8rem;
+  padding: 1rem;
   border-radius: 0.5rem;
   z-index: 100;
   overflow: hidden;
@@ -99,14 +100,17 @@ a {
 
 .navbarLinks .dropdown-container .dropdown-menu li {
   width: 100%;
+  text-align: center;
 }
 
 .navbarLinks .dropdown-container .dropdown-menu li a {
-  display: block;
+  width: 100%;
   padding: 0.6rem 1rem;
   font-size: 0.8rem;
+  font-weight: 300;
   color: var(--color-primary);
   white-space: nowrap;
+  border-radius: 0.6rem;
 }
 
 .navbarLinks .dropdown-container .dropdown-menu li a:hover {
@@ -190,11 +194,11 @@ a {
     margin: 2% 2%;
   }
 
-  .navbar .navbarLinks li:nth-child(4) {
+  .navbar .navbarLinks #nav-li:nth-child(4) {
     margin: 0 10%;
   }
 
-  .navbar .navbarLinks li:nth-child(4) a {
+  .navbar .navbarLinks #nav-li:nth-child(4) a {
     font-size: 1.2rem;
   }
 

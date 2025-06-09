@@ -1,0 +1,73 @@
+
+.fundraisers-page {
+  background: var(--color-surface);
+  padding: 6rem 1.5rem;
+  font-family: 'Poppins', sans-serif;
+  color: var(--color-text-dark);
+}
+
+.fundraisers-page h1 {
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 2rem;
+  color: var(--color-primary);
+}
+
+.fundraiser-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.fundraiser-card {
+  background: var(--color-surface);
+  border-radius: 0.8rem;
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  box-shadow: 0 8px 15px rgba(0,0,0,0.05);
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+  display: flex;
+  flex-direction: column;
+  height: 260px;
+}
+
+.fundraiser-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+}
+
+.card-image {
+  flex: none;
+  height: 140px;
+  background-size: cover;
+  background-position: center;
+}
+
+.card-title {
+  flex: 1;
+  padding: 0.8rem 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: var(--color-text-dark);
+  background: var(--color-surface);
+}
+
+.fundraiser-card::after {
+  content: none;
+}
+
+@media (max-width: 480px) {
+  .fundraisers-page {
+    padding: 4rem 1rem;
+  }
+  .fundraisers-page h1 {
+    font-size: 1.6rem;
+  }
+}
