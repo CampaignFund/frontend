@@ -2,6 +2,7 @@ import { CiSearch} from "react-icons/ci";
 import '../css/Search.css'
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import TrendingFundraisers from "../components/Trending";
 
 const Search = ()=>{
     return(<>
@@ -19,6 +20,7 @@ const Search = ()=>{
 
             </div>
         </div>
+        <TrendingFundraisers/>
         <Footer></Footer>
     </>);
 };

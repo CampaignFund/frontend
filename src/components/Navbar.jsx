@@ -7,12 +7,7 @@ import '../css/Navbar.css';
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isSidebarOpen, setSidebarOpen] = useState(false);
-  const user = {
-    id: 1,
-    name: "John Doe",
-    email: "email@example.com",
-    role: 'admin',
-  }
+  const user = {}
 
   const sidebarRef = useRef(null);
   const toggleBtnRef = useRef(null);
@@ -83,7 +78,7 @@ const Navbar = () => {
             {user.role==='admin' && <li><a href="/admin-dashboard">Admin Dashboard</a></li>}
             <li><a href="#">Logout</a></li>
           </ul>
-        </li>) : (<li><a href="/signin">Sign in</a><CiLogin /></li>)}
+        </li>) : (<li id='nav-li'><a href="/signin">Sign in</a><CiLogin /></li>)}
         <li id='nav-li'><a href="/contact">Contact</a></li>
         <li id='nav-li' className='start-fund'><a href="/campaign">Start Fund</a></li>
       </ul>

@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { FcGoogle } from 'react-icons/fc';
 import '../css/Signin.css';
+import { Link } from 'react-router-dom';
+import { FiHome } from 'react-icons/fi';
 
 const Signin = () => {
   const [isSignUp, setIsSignUp] = useState(false);
@@ -16,6 +18,7 @@ const Signin = () => {
 
   return (
     <div className="signin-body">
+      <Link to="/" className="home-icon"><FiHome /></Link>
       <div className="signin-card">
         <h2 className="signin-title">{isSignUp ? 'Create an Account' : 'Welcome Back'}</h2>
 
@@ -78,6 +81,10 @@ const Signin = () => {
           >
             {isSignUp ? 'Sign In' : 'Sign Up'}
           </span>
+        </p>
+        <p className='reset-text'>
+          Forgot password?
+          <Link to={'/forgot-password'}><span className='reset-link'>Reset Password</span></Link>
         </p>
       </div>
     </div>

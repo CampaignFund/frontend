@@ -13,7 +13,8 @@ const DonateModal=({ isOpen, onClose, onDonate })=>{
   const handleSubmit = e => {
     e.preventDefault();
     const payment = method==='card' ? { ...card } : { upi };
-    onDonate(selectedAmount, method, payment);
+    onDonate({amount:selectedAmount});
+    
   };
 
   return (

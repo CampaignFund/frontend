@@ -9,8 +9,7 @@ const Donate = () => {
     const [collected, setCollected] = useState(2350);
     const [isModalOpen, setModalOpen] = useState(false);
 
-    const handleDonate = () => {
-        const amount = parseInt(prompt('Enter donation amount:'), 10);
+    const handleDonate = ({amount}) => {
         if (!isNaN(amount) && amount > 0) {
             setCollected(prev => Math.min(prev + amount, goal));
         }

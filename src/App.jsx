@@ -9,6 +9,8 @@ import StartFund from "./pages/StartFund";
 import Profile from "./pages/Profile";
 import Fundraisers from "./pages/Fundraisers";
 import Dashboard from "./pages/AdminDashboard";
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
 
 const App = ()=>{
   return (
@@ -18,10 +20,12 @@ const App = ()=>{
         <Route path="/signin" element={<Signin/>} />
         <Route path="/search" element={<Search/>} />
         <Route path="/donate/:id" element={<Donate/>} />
-        <Route path="/fundraisers" element={<Fundraisers/>} />
+        <Route path="/fundraisers/:category?" element={<Fundraisers/>} />
         <Route path="/profile" element={<Profile/>} />
         <Route path="/discover" element={<Discover/>} />
         <Route path="/campaign" element={<StartFund/>} />
+        <Route path="/forgot-password" element={<ForgotPassword/>} />
+        <Route path="/reset-password" element={<ResetPassword/>} />
         <Route path="/admin-dashboard" element={<Dashboard/>} />
         <Route path="*" element={<PageNotFound/>} />
       </Routes>

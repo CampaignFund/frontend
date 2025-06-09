@@ -27,10 +27,10 @@ export default function Discover() {
             <Link to="/campaign" className="start-campaign">Start Campaign</Link>
             <div className="categories-grid">
               {categories.map(cat => (
-                <div key={cat.name} className="category-card">
+                <Link to={`/fundraisers/${cat.name}`}><div key={cat.name} className="category-card">
                   <div className="icon">{cat.icon}</div>
                   <span>{cat.name}</span>
-                </div>
+                </div></Link>
               ))}
             </div>
           </div>

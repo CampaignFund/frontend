@@ -125,19 +125,19 @@ a {
   background-color: #4fc179; 
   transform: translateY(-2px);
 }
-.toggle-text {
+.toggle-text, .reset-text {
   font-size: 0.85rem;
   color: #555;
   margin-top: 1rem;
 }
 
-.toggle-link {
+.toggle-link, .reset-link {
   color: var(--color-primary);
   font-weight: 600;
   cursor: pointer;
   transition: color var(--transition-fast);
 }
 
-.toggle-link:hover {
+.toggle-link:hover, .reset-link:hover {
   color: var(--color-accent);
 }
