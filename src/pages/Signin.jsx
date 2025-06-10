@@ -68,7 +68,7 @@ const Signin = () => {
           const res = await axios.post(`${apiURL}/api/auth/login`, {
             email: formData.email,
             password: formData.password,
-          });
+          },{withCredentials:true});
 
           if (res) {
             console.log(res.data)
