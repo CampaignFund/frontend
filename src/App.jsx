@@ -25,7 +25,7 @@ const App = ()=>{
         <Route path="/discover" element={<Discover/>} />
         <Route path="/campaign" element={<StartFund/>} />
         <Route path="/forgot-password" element={<ForgotPassword/>} />
-        <Route path="/reset-password" element={<ResetPassword/>} />
+        <Route path="/reset-password/:resetToken" element={<ResetPassword/>} />
         <Route path="/admin-dashboard" element={<Dashboard/>} />
         <Route path="*" element={<PageNotFound/>} />
       </Routes>

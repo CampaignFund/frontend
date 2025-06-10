@@ -1,13 +1,14 @@
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { CiSearch, CiLogin } from "react-icons/ci";
 import { IoMdArrowDropdown, IoMdClose } from "react-icons/io";
 import { GiHamburgerMenu } from "react-icons/gi";
 import '../css/Navbar.css';
+import { CampaignContext } from '../store/campaignStore';
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isSidebarOpen, setSidebarOpen] = useState(false);
-  const user = {}
+  const {user} = useContext(CampaignContext)
 
   const sidebarRef = useRef(null);
   const toggleBtnRef = useRef(null);
@@ -42,6 +43,10 @@ const Navbar = () => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [isSidebarOpen]);
 
+  const handleLogout = ()=>{
+    localStorage.removeItem('user');
+  }
+
   return (
     <nav className={`navbar ${isScrolled ? 'shadow' : ''}`}>
       {/* Toggle icon for mobile */}
@@ -69,14 +74,14 @@ const Navbar = () => {
           </ul>
         </li>
         <li id='nav-li'><a href="/">Campaign Fund</a></li>
-        {user?.id ? (<li id='nav-li' className='dropdown-container'>
-          <a href="#">{user.name}</a>
+        {user?._id ? (<li id='nav-li' className='dropdown-container'>
+          <a href="#">{user.fullName}</a>
           <IoMdArrowDropdown className='dropdown-container-icon' />
           <ul className='dropdown-menu'>
             <li><a href="/profile">Profile</a></li>
             <li><a href="/profile/funds">My Funds</a></li>
-            {user.role==='admin' && <li><a href="/admin-dashboard">Admin Dashboard</a></li>}
-            <li><a href="#">Logout</a></li>
+            {user?.role==='admin' && <li><a href="/admin-dashboard">Admin Dashboard</a></li>}
+            <li><a href="/"><span onClick={handleLogout}>Logout</span></a></li>
           </ul>
         </li>) : (<li id='nav-li'><a href="/signin">Sign in</a><CiLogin /></li>)}
         <li id='nav-li'><a href="/contact">Contact</a></li>
@@ -90,15 +95,15 @@ const Navbar = () => {
 
         <li><a href="/">Campaign Fund</a></li>
         <li><a href="/search"><CiSearch /> Search</a></li>
-        {user.role==='admin' && <li><a href="/admin-dashboard">Admin Dashboard</a></li>}
+        {user?.role==='admin' && <li><a href="/admin-dashboard">Admin Dashboard</a></li>}
         <li><a href="/about/mission">Mission</a></li>
         <li><a href="/about/partners">Partners</a></li>
         <li><a href="/fundraisers">Fundraisers</a></li>
         <li><a href="/discover">Categories</a></li>
-        {user?.id ? (<>
+        {user?._id ? (<>
           <li><a href="/profile">Profile</a></li>
           <li><a href="/profile/funds">My Funds</a></li>
-          <li><a href="#">Logout</a></li>
+          <li><a href='/'><span onClick={handleLogout}>Logout</span></a></li>
         </>) : (<li><a href="/signin">Sign in <CiLogin /></a></li>)}
 
         <li><a href="/contact">Contact</a></li>

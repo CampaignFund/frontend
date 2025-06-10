@@ -1,11 +1,22 @@
-import { useState } from 'react';
+import {  useContext, useState } from 'react';
 import '../css/Signin.css';
 import { FiHome } from 'react-icons/fi';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import axios from 'axios';
+import { CampaignContext } from '../store/campaignStore';
+
 
 const ResetPassword = () => {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+    const [error, setError] = useState(null);
+
+    const {apiURL} = useContext(CampaignContext)
+
+    const params = useParams();
+    const navigate = useNavigate();
+
+    const resetToken = new window.URLSearchParams(params).get('resetToken');
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -13,7 +24,24 @@ const ResetPassword = () => {
             alert("Passwords do not match");
             return;
         }
-        console.log('Password reset successfully:', password);
+
+        try {
+            const handleResetPassword = async()=>{
+                const res = await axios.post(`${apiURL}/api/auth/reset-password/${resetToken}`, {newPassword:password});
+
+                if(res){
+                    console.log(res);
+                    console.log('Password reset successfully:', password);
+                    navigate('/');
+                }
+            }
+
+            handleResetPassword();
+            setError(null);
+        } catch (error) {
+            console.log("Some error occured : ", error);
+            setError(error.response.data.message || error.response.data.msg || error.message);
+        }
     };
 
     return (
@@ -21,6 +49,8 @@ const ResetPassword = () => {
             <Link to="/" className="home-icon"><FiHome /></Link>
             <div className="signin-card">
                 <h2 className="signin-title">Reset Password</h2>
+
+                
                 <form className="signin-form" onSubmit={handleSubmit}>
                     <input
                         type="password"
@@ -38,6 +68,7 @@ const ResetPassword = () => {
                         value={confirmPassword}
                         onChange={(e) => setConfirmPassword(e.target.value)}
                     />
+                    {error && <span className='error-message'>{error}</span>}
                     <button type="submit" className="btn primary-btn">Reset Password</button>
                 </form>
             </div>

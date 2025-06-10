@@ -1,50 +1,79 @@
-import { useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import '../css/Profile.css';
 import { FiHome } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
+import { CampaignContext } from '../store/campaignStore';
+import axios from 'axios';
 
 export default function Profile() {
     const defaultProfile = '/UserProfile.jpg';
-    const [user, setUser] = useState({
-        name: 'Mohammad Zafar',
-        email: 'zafar@example.com',
-        username: '98ZAFAR',
-        phone: '9876543210',
-        location: 'Howrah, India'
-    });
+    const { user, apiURL} = useContext(CampaignContext)
+    const [updatedUser, setUpdatedUser] = useState(user);
 
     const [editMode, setEditMode] = useState(false);
 
+    useEffect(()=>{
+        const handleFetchProfile = async()=>{
+            try {
+                const res = await axios.get(`${apiURL}/api/user/profile`,{
+                    withCredentials:true
+                });
+
+                if(res){
+                    console.log(res.data);
+                }
+            } catch (error) {
+                console.log("Some error occured : ", error);
+            }
+        }
+
+        handleFetchProfile();
+    },[])
+
     const handleChange = e => {
         const { name, value } = e.target;
-        setUser(prev => ({ ...prev, [name]: value }));
+        setUpdatedUser(prev => ({ ...prev, [name]: value }));
     };
 
     const handleSave = () => {
         setEditMode(false);
-        console.log('Updated Info:', user);
+        console.log('Updated Info:', updatedUser);
     };
 
     return (
         <div className="profile-container">
             <div className="profile-card">
-            <Link to="/" className="home-icon"><FiHome /></Link>
+                <Link to="/" className="home-icon"><FiHome /></Link>
                 <div className="profile-image">
-                    <img src={defaultProfile} alt="Profile" />
+                    <img src={user.profilePhoto || defaultProfile} alt="Profile" />
                 </div>
-                <h2>{user.name}</h2>
+                <h2>{user.fullName}</h2>
 
                 <div className="profile-fields">
-                    {Object.entries(user).map(([key, value]) => (
-                        <div className="profile-field" key={key}>
-                            <label>{key.charAt(0).toUpperCase() + key.slice(1)}</label>
-                            {editMode ? (
-                                <input name={key} value={value} onChange={handleChange} />
-                            ) : (
-                                <p>{value}</p>
-                            )}
-                        </div>
-                    ))}
+                    <div className="profile-field">
+                        <label>Full Name</label>
+                        {editMode ? (
+                            <input name='fullName' value={updatedUser.fullName} onChange={handleChange} />
+                        ) : (
+                            <p>{user.fullName}</p>
+                        )}
+                    </div>
+                    <div className="profile-field">
+                        <label>Email</label>
+                        {editMode ? (
+                            <input name='email' value={updatedUser.email} onChange={handleChange} />
+                        ) : (
+                            <p>{user.email}</p>
+                        )}
+                    </div>
+                    <div className="profile-field">
+                        <label>Phone</label>
+                        {editMode ? (
+                            <input name='phone' value={updatedUser.phone} onChange={handleChange} />
+                        ) : (
+                            <p>{user.phone}</p>
+                        )}
+                    </div>
                 </div>
 
                 <div className="profile-actions">

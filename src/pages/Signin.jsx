@@ -1,25 +1,110 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { FcGoogle } from 'react-icons/fc';
 import '../css/Signin.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FiHome } from 'react-icons/fi';
+import axios from 'axios';
+import { CampaignContext } from '../store/campaignStore';
 
 const Signin = () => {
   const [isSignUp, setIsSignUp] = useState(false);
+  const [error, setError] = useState(null);
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+    phone: ''
+  })
+
+  const {setUser,apiURL} = useContext(CampaignContext)
+
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (isSignUp) {
       console.log('Signing Up...');
+
+      //Signup API Request
+      const handleSignup = async () => {
+        try {
+          if (FormData.password != FormData.confirmPassword) return;
+          const signupBody = {
+            fullName: formData.name,
+            email: formData.email,
+            phone: formData.phone,
+            password: formData.password
+          }
+
+          const res = await axios.post(`${apiURL}/api/auth/signup`, signupBody);
+
+          if (res) {
+            console.log(res.data)
+            setFormData({
+              name: '',
+              email: '',
+              password: '',
+              confirmPassword: '',
+              phone: ''
+            });
+            setIsSignUp(false);
+          }
+        } catch (error) {
+          console.log('Some error occured : ', error);
+          setError(error.response.data.message || error.response.data.msg || error.message);
+        }
+      }
+
+      handleSignup();
+      setError(null);
+
     } else {
       console.log('Signing In...');
+
+      //Signin API Request
+      const handleSignin = async () => {
+        try {
+          const res = await axios.post(`${apiURL}/api/auth/login`, {
+            email: formData.email,
+            password: formData.password,
+          });
+
+          if (res) {
+            console.log(res.data)
+            setUser(res.data.user);
+
+            localStorage.setItem('user', JSON.stringify(res.data.user));
+            setFormData({
+              name: '',
+              email: '',
+              password: '',
+              confirmPassword: '',
+              phone: ''
+            });
+            navigate('/');
+          }
+        } catch (error) {
+          console.log('Some error occured : ', error);
+          setError(error.response.data.message || error.response.data.msg || error.message);
+        }
+      }
+
+      handleSignin();
+      setError(null);
     }
   };
+
+  const handleFormChange = (e) => {
+    setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
+    console.log(formData);
+  }
 
   return (
     <div className="signin-body">
       <Link to="/" className="home-icon"><FiHome /></Link>
       <div className="signin-card">
+
         <h2 className="signin-title">{isSignUp ? 'Create an Account' : 'Welcome Back'}</h2>
 
         {!isSignUp && (
@@ -43,27 +128,46 @@ const Signin = () => {
               type="text"
               name="name"
               placeholder="Full Name"
+              value={formData.name}
               required
+              onChange={handleFormChange}
             />
           )}
           <input
             type="email"
             name="email"
             placeholder="Email Address"
+            value={formData.email}
             required
+            onChange={handleFormChange}
           />
           <input
             type="password"
             name="password"
             placeholder="Password"
+            value={formData.password}
             required
+            onChange={handleFormChange}
           />
+            {error && <span className='error-message'>{error}</span>}
           {isSignUp && (
             <input
               type="password"
               name="confirmPassword"
               placeholder="Confirm Password"
+              value={formData.confirmPassword}
               required
+              onChange={handleFormChange}
+            />
+          )}
+          {isSignUp && (
+            <input
+              type="number"
+              name="phone"
+              placeholder="Phone Number"
+              value={formData.phone}
+              required
+              onChange={handleFormChange}
             />
           )}
           <button type="submit" className="btn primary-btn">
