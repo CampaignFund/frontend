@@ -4,11 +4,15 @@ import { IoMdArrowDropdown, IoMdClose } from "react-icons/io";
 import { GiHamburgerMenu } from "react-icons/gi";
 import '../css/Navbar.css';
 import { CampaignContext } from '../store/campaignStore';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isSidebarOpen, setSidebarOpen] = useState(false);
-  const {user} = useContext(CampaignContext)
+  const { user, apiURL } = useContext(CampaignContext)
+
+  const navigate = useNavigate();
 
   const sidebarRef = useRef(null);
   const toggleBtnRef = useRef(null);
@@ -43,8 +47,21 @@ const Navbar = () => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [isSidebarOpen]);
 
-  const handleLogout = ()=>{
-    localStorage.removeItem('user');
+  const handleLogout = () => {
+    const logoutUser = async () => {
+      try {
+        const res = await axios.post(`${apiURL}/api/auth/logout`, {}, {withCredentials:true});
+
+        if (res) {
+          console.log(res.data.message || res.data.msg);
+          localStorage.removeItem('user');
+        }
+      } catch (error) {
+        console.log("Error Occured : ", error);
+      }
+    }
+
+    logoutUser();
   }
 
   return (
@@ -80,8 +97,8 @@ const Navbar = () => {
           <ul className='dropdown-menu'>
             <li><a href="/profile">Profile</a></li>
             <li><a href="/profile/funds">My Funds</a></li>
-            {user?.role==='admin' && <li><a href="/admin-dashboard">Admin Dashboard</a></li>}
-            <li><a href="/"><span onClick={handleLogout}>Logout</span></a></li>
+            {user?.role === 'admin' && <li><a href="/admin-dashboard">Admin Dashboard</a></li>}
+            <li><a href='/'><span onClick={handleLogout}>Logout</span></a></li>
           </ul>
         </li>) : (<li id='nav-li'><a href="/signin">Sign in</a><CiLogin /></li>)}
         <li id='nav-li'><a href="/contact">Contact</a></li>
@@ -95,7 +112,7 @@ const Navbar = () => {
 
         <li><a href="/">Campaign Fund</a></li>
         <li><a href="/search"><CiSearch /> Search</a></li>
-        {user?.role==='admin' && <li><a href="/admin-dashboard">Admin Dashboard</a></li>}
+        {user?.role === 'admin' && <li><a href="/admin-dashboard">Admin Dashboard</a></li>}
         <li><a href="/about/mission">Mission</a></li>
         <li><a href="/about/partners">Partners</a></li>
         <li><a href="/fundraisers">Fundraisers</a></li>
