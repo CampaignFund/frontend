@@ -91,7 +91,7 @@ const Navbar = () => {
           </ul>
         </li>
         <li id='nav-li'><a href="/">Campaign Fund</a></li>
-        {user?._id ? (<li id='nav-li' className='dropdown-container'>
+        {user?.email ? (<li id='nav-li' className='dropdown-container'>
           <a href="#">{user.fullName}</a>
           <IoMdArrowDropdown className='dropdown-container-icon' />
           <ul className='dropdown-menu'>
@@ -117,7 +117,7 @@ const Navbar = () => {
         <li><a href="/about/partners">Partners</a></li>
         <li><a href="/fundraisers">Fundraisers</a></li>
         <li><a href="/discover">Categories</a></li>
-        {user?._id ? (<>
+        {user?.email? (<>
           <li><a href="/profile">Profile</a></li>
           <li><a href="/profile/funds">My Funds</a></li>
           <li><a href='/'><span onClick={handleLogout}>Logout</span></a></li>

@@ -1,3 +1,4 @@
+import { useContext, useEffect } from "react";
 import Divider from "../components/Divider";
 import Footer from "../components/Footer";
 import HomeContainer from "../components/HomeContainer";
@@ -5,14 +6,31 @@ import Features from "../components/HomeFeatures";
 import Navbar from "../components/Navbar";
 import TrendingFundraisers from "../components/Trending";
 import '../css/Home.css'
+import { CampaignContext } from "../store/campaignStore";
+import { useLocation } from "react-router-dom";
 
 const Home = () => {
+    const { setUser } = useContext(CampaignContext);
+    const location = useLocation()
+    const params = new window.URLSearchParams(location.search);
+    const googleUser = {
+        fullName: params.get('name'),
+        email: params.get('email'),
+        role:params.get('role')
+    }
+
+    useEffect(() => {
+        if (googleUser.fullName && googleUser.email) {
+            setUser(googleUser);
+            localStorage.setItem('user', JSON.stringify(googleUser));
+        }
+    }, [])
     return (
         <>
             <Navbar></Navbar>
             <HomeContainer></HomeContainer>
             <Divider></Divider>
-            <TrendingFundraisers/>
+            <TrendingFundraisers />
             <Features></Features>
             <Footer></Footer>
         </>

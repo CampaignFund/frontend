@@ -100,6 +100,10 @@ const Signin = () => {
     console.log(formData);
   }
 
+  const handleGoogleLogin = async()=>{
+    window.location.href = `${apiURL}/api/auth/google`
+  }
+
   return (
     <div className="signin-body">
       <Link to="/" className="home-icon"><FiHome /></Link>
@@ -108,7 +112,7 @@ const Signin = () => {
         <h2 className="signin-title">{isSignUp ? 'Create an Account' : 'Welcome Back'}</h2>
 
         {!isSignUp && (
-          <button className="btn google-btn">
+          <button className="btn google-btn" onClick={handleGoogleLogin}>
             <span className="btn-icon">
               <FcGoogle size={20} />
             </span>

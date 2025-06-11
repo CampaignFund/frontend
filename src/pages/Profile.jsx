@@ -18,6 +18,7 @@ const Profile = () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [previewImage, setPreviewImage] = useState(defaultProfile);
   const [isSending, setIsSending] = useState(false);
+  const [error, setError] = useState(null);
 
   // Fetch user profile on mount
   useEffect(() => {
@@ -82,6 +83,20 @@ const Profile = () => {
       console.error('Error updating profile:', err);
     }
   };
+
+  const handleDeactivateAccount = async()=>{
+    try {
+        const res = await axios.post(`${apiURL}/api/user/account-deletion/request`, {}, {withCredentials:true});
+
+        if(res.data){
+            console.log(res.data);
+            setError(null);
+        }
+    } catch (error) {
+        console.log('Some error occured : ',error);
+        setError(error.response.data.message || error.response.data.msg || error.message);
+    }
+  }
 
   if (!user) return <div className="profile-container">Loading...</div>;
 
@@ -160,7 +175,8 @@ const Profile = () => {
           )}
         </div>
 
-        <button className="btn danger">Deactivate Account</button>
+        <button className="btn danger" onClick={handleDeactivateAccount}>Deactivate Account</button>
+        {error && ( <div className="error-message">{error}</div> )}
       </div>
     </div>
   );

@@ -1,22 +1,29 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useContext, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { FiHome } from 'react-icons/fi';
 import '../css/StartFund.css';
+import axios from 'axios';
+import { CampaignContext } from '../store/campaignStore';
 
 export default function StartFund() {
+
+  const { apiURL } = useContext(CampaignContext)
+  const [isSending, setIsSending] = useState(false);
+  const navigate = useNavigate();
+
   const [step, setStep] = useState(1);
   const [form, setForm] = useState({
     country: '',
-    zip: '',
-    title: '',
-    category: '',
-    goal: '',
-    story: '',
-    image: null,
-    accountName: '',
+    postcode: '',
+    fundraiseTitle: '',
+    fundCategory: '',
+    totalAmountRaised: '',
+    fundraiseStory: '',
+    coverImage: null,
+    accountHolderName: '',
     accountNumber: '',
     bankName: '',
-    ifsc: ''
+    ifscCode: ''
   });
 
   const next = () => setStep(s => Math.min(5, s + 1));
@@ -27,7 +34,28 @@ export default function StartFund() {
   };
   const handleSubmit = e => {
     e.preventDefault();
-    console.log(form);
+    setIsSending(true);
+    const createFund = async () => {
+      try {
+        const res = await axios.post(`${apiURL}/api/fund/create-fundraise`, form,
+          {
+            withCredentials: true,
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            },
+          });
+
+        if (res.data) {
+          console.log(res.data);
+          setIsSending(false);
+          navigate('/');
+        }
+      } catch (error) {
+        console.log('Some error occured : ',error);
+      }
+    }
+
+    createFund();
   };
 
   const countries = ['United States', 'India', 'United Kingdom', 'Canada', 'Australia'];
@@ -57,7 +85,7 @@ export default function StartFund() {
                 </div>
               </label>
               <label>ZIP / Postal Code
-                <input name="zip" value={form.zip} onChange={handleChange} required />
+                <input name="postcode" value={form.postcode} onChange={handleChange} required />
               </label>
             </div>
           )}
@@ -65,39 +93,39 @@ export default function StartFund() {
           {step === 2 && (
             <div className="step-content">
               <label>Campaign Title
-                <input name="title" value={form.title} onChange={handleChange} required />
+                <input name="fundraiseTitle" value={form.fundraiseTitle} onChange={handleChange} required />
               </label>
               <label>Category
-                <input name="category" value={form.category} onChange={handleChange} required />
+                <input name="fundCategory" value={form.fundCategory} onChange={handleChange} required />
               </label>
               <label>Goal Amount ($)
-                <input name="goal" type="number" value={form.goal} onChange={handleChange} required />
+                <input name="totalAmountRaised" type="number" value={form.totalAmountRaised} onChange={handleChange} required />
               </label>
             </div>
           )}
           {step === 3 && (
             <div className="step-content">
               <label>Story Description
-                <textarea name="story" value={form.story} onChange={handleChange} required />
+                <textarea name="fundraiseStory" value={form.fundraiseStory} onChange={handleChange} required />
               </label>
-              <label>Cover Image
-                <input name="image" type="file" accept="image/*" onChange={handleChange} required />
+              <label>Cover coverImage
+                <input name="coverImage" type="file" accept="coverImage/*" onChange={handleChange} required />
               </label>
             </div>
           )}
           {step === 4 && (
             <div className="step-content">
               <label>Account Holder Name
-                <input name="accountName" value={form.accountName} onChange={handleChange} required />
+                <input name="accountHolderName" value={form.accountHolderName} onChange={handleChange} />
               </label>
               <label>Account Number
-                <input name="accountNumber" value={form.accountNumber} onChange={handleChange} required />
+                <input name="accountNumber" value={form.accountNumber} onChange={handleChange} />
               </label>
               <label>Bank Name
-                <input name="bankName" value={form.bankName} onChange={handleChange} required />
+                <input name="bankName" value={form.bankName} onChange={handleChange} />
               </label>
               <label>IFSC Code
-                <input name="ifsc" value={form.ifsc} onChange={handleChange} required />
+                <input name="ifscCode" value={form.ifscCode} onChange={handleChange} />
               </label>
             </div>
           )}
@@ -105,24 +133,24 @@ export default function StartFund() {
             <div className="step-content review">
               <h2>Review Your Campaign</h2>
               <p><strong>Country:</strong> {form.country}</p>
-              <p><strong>ZIP:</strong> {form.zip}</p>
-              <p><strong>Title:</strong> {form.title}</p>
-              <p><strong>Category:</strong> {form.category}</p>
-              <p><strong>Goal:</strong> ${form.goal}</p>
-              <p><strong>Story:</strong> {form.story}</p>
-              {form.image && <img src={URL.createObjectURL(form.image)} alt="preview" />}
+              <p><strong>ZIP:</strong> {form.postcode}</p>
+              <p><strong>Title:</strong> {form.fundraiseTitle}</p>
+              <p><strong>Category:</strong> {form.fundCategory}</p>
+              <p><strong>Goal Amount:</strong> ${form.totalAmountRaised}</p>
+              <p><strong>Story:</strong> {form.fundraiseStory}</p>
+              {form.coverImage && <img src={URL.createObjectURL(form.coverImage)} alt="preview" />}
               <h3>Payout To:</h3>
-              <p><strong>Name:</strong> {form.accountName}</p>
-              <p><strong>Account #:</strong> {form.accountNumber}</p>
-              <p><strong>Bank:</strong> {form.bankName}</p>
-              <p><strong>IFSC:</strong> {form.ifsc}</p>
+              <p><strong>Account Holder Name:</strong> {form.accountHolderName}</p>
+              <p><strong>Account Number :</strong> {form.accountNumber}</p>
+              <p><strong>Bank Name:</strong> {form.bankName}</p>
+              <p><strong>IFSC Code:</strong> {form.ifscCode}</p>
             </div>
           )}
           <div className="buttons">
             {step > 1 && <button type="button" className="btn back" onClick={back}>Back</button>}
             {step < 5
               ? <button type="button" className="btn next" onClick={next}>Next</button>
-              : <button type="submit" className="btn submit">Submit</button>
+              : <button type='button' className="btn submit" disabled={isSending} onClick={handleSubmit} >{isSending? <>Sending...</>:<>Submit</>}</button>
             }
           </div>
         </form>
