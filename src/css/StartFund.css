@@ -1,4 +1,3 @@
-/* Container & Background */
 .start-fund-container {
   display: flex;
   justify-content: center;
@@ -9,7 +8,6 @@
   background-size: cover;
 }
 
-/* Form Card */
 .start-fund-page {
   position: relative;
   width: 600px;
@@ -23,14 +21,12 @@
   overflow-y: auto;
 }
 
-/* Header */
 .start-fund-page h1 {
   text-align: center;
   margin-bottom: 2rem;
   color: var(--color-primary);
 }
 
-/* Home Icon */
 .home-icon {
   position: absolute;
   top: 1rem;
@@ -44,7 +40,6 @@
   color: var(--color-accent);
 }
 
-/* Stepper */
 .stepper {
   display: flex;
   align-items: center;
@@ -80,11 +75,10 @@
   background: var(--color-accent);
 }
 
-/* Form Steps */
 .step-content {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 0.5rem;
 }
 .step-content label {
   display: block;
@@ -115,7 +109,6 @@
   outline: none;
 }
 
-/* Review Preview */
 .review h2 {
   margin-bottom: 1rem;
   color: var(--color-primary);
@@ -135,7 +128,6 @@
   color: var(--color-primary);
 }
 
-/* Buttons */
 .buttons {
   display: flex;
   justify-content: space-between;
@@ -173,7 +165,6 @@
   cursor: not-allowed;
 }
 
-/* Custom Select Arrow */
 .custom-select {
   position: relative;
 }
@@ -195,7 +186,6 @@
   font-size: 0.8rem;
 }
 
-/* Scrollbar Styling */
 .start-fund-page::-webkit-scrollbar {
   width: 8px;
 }
@@ -207,7 +197,6 @@
   border-radius: 4px;
 }
 
-/* Responsive */
 @media (max-width: 786px) {
   .start-fund-page {
     width: 100%;

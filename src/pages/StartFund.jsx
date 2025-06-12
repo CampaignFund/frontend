@@ -33,7 +33,7 @@ const CATEGORY_OPTIONS = [
 const formatLabel = (key) =>
   key
     .split('_')
-    .map((word) => word[0].toUpperCase() + word.slice(1))
+    .map((word) => word[0]?.toUpperCase() + word.slice(1))
     .join(' ');
 
 export default function StartFund() {
@@ -268,9 +268,10 @@ export default function StartFund() {
               </button>
             ) : (
               <button
-                type="submit"
+                type="button"
                 className="btn submit"
                 disabled={isSending}
+                onClick={handleSubmit}
               >
                 {isSending ? 'Sending…' : 'Submit'}
               </button>

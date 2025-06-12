@@ -6,7 +6,7 @@
 
 .search-body{
     width: 100%;
-    min-height: 100vh;
+    min-height: 20vh;
     background-color: var(--color-surface);
     display: flex;
     flex-direction: column;
@@ -51,6 +51,14 @@
 .search-container .search-icon:hover{
     scale: 1.2;
     cursor: pointer;
+}
+
+.suggestion-container{
+    width: 100%;
+}
+
+.suggestion-container.disabled{
+    display:none
 }
 
 @media (max-width:900px){

@@ -8,8 +8,6 @@ import { CampaignContext } from '../store/campaignStore';
 import { useParams } from 'react-router-dom';
 
 const Donate = () => {
-    const goal = 5000;
-    const [collected, setCollected] = useState(2350);
     const [isModalOpen, setModalOpen] = useState(false);
     const [fund, setFund] = useState(null);
     const [isLoading, setIsLoading] = useState(false);

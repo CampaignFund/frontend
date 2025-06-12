@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import '../css/Fundraisers.css';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
@@ -14,11 +14,16 @@ const Fundraisers = () => {
 
   const [isLoading, setIsLoading] = useState(false);
 
+  const params = useParams();
+  const query = new window.URLSearchParams(params).get('category') || '';
+
+  console.log(query);
+
   useEffect(() => {
     (async () => {
       setIsLoading(true);
       try {
-        const res = await axios.get(`${apiURL}/api/fund/fund-list`);
+        const res = await axios.get(`${apiURL}/api/fund/fund-list?search=${query}`);
         if (res.data?.funds) {
           setFunds(res.data.funds);
           setIsLoading(false);
