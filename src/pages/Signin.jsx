@@ -185,7 +185,10 @@ const Signin = () => {
             : "Don't have an account? "}
           <span
             className="toggle-link"
-            onClick={() => setIsSignUp((prev) => !prev)}
+            onClick={() => {
+              setIsSignUp((prev) => !prev);
+              setError(null);
+            }}
           >
             {isSignUp ? 'Sign In' : 'Sign Up'}
           </span>

@@ -165,7 +165,7 @@ const Profile = () => {
 
         <div className="profile-actions">
           {editMode ? (
-            <button className="btn save" onClick={handleSave}>
+            <button className="btn save" onClick={handleSave} disabled={isSending}>
               {isSending? <>Updating...</> : <>Save Changes</>}
             </button>
           ) : (

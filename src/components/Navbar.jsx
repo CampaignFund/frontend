@@ -5,14 +5,11 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import '../css/Navbar.css';
 import { CampaignContext } from '../store/campaignStore';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   const { user, apiURL } = useContext(CampaignContext)
-
-  const navigate = useNavigate();
 
   const sidebarRef = useRef(null);
   const toggleBtnRef = useRef(null);
@@ -55,6 +52,7 @@ const Navbar = () => {
         if (res) {
           console.log(res.data.message || res.data.msg);
           localStorage.removeItem('user');
+          window.location.reload()
         }
       } catch (error) {
         console.log("Error Occured : ", error);
@@ -98,7 +96,7 @@ const Navbar = () => {
             <li><a href="/profile">Profile</a></li>
             <li><a href="/profile/funds">My Funds</a></li>
             {user?.role === 'admin' && <li><a href="/admin-dashboard">Admin Dashboard</a></li>}
-            <li><a href='/'><span onClick={handleLogout}>Logout</span></a></li>
+            <li><a><span onClick={handleLogout}>Logout</span></a></li>
           </ul>
         </li>) : (<li id='nav-li'><a href="/signin">Sign in</a><CiLogin /></li>)}
         <li id='nav-li'><a href="/contact">Contact</a></li>
@@ -120,7 +118,7 @@ const Navbar = () => {
         {user?.email? (<>
           <li><a href="/profile">Profile</a></li>
           <li><a href="/profile/funds">My Funds</a></li>
-          <li><a href='/'><span onClick={handleLogout}>Logout</span></a></li>
+          <li><a><span onClick={handleLogout}>Logout</span></a></li>
         </>) : (<li><a href="/signin">Sign in <CiLogin /></a></li>)}
 
         <li><a href="/contact">Contact</a></li>

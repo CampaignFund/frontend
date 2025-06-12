@@ -23,6 +23,7 @@ const Home = () => {
         if (googleUser.fullName && googleUser.email) {
             setUser(googleUser);
             localStorage.setItem('user', JSON.stringify(googleUser));
+            window.history.replaceState({}, document.title, window.location.pathname);
         }
     }, [])
     return (

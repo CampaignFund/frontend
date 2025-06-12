@@ -115,6 +115,7 @@ a {
 
 .navbarLinks .dropdown-container .dropdown-menu li a:hover {
   background-color: var(--color-background);
+  cursor: pointer;
 }
 
 .navbarLinks .dropdown-container .dropdown-container-icon {

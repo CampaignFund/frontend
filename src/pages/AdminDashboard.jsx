@@ -4,15 +4,22 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import axios from 'axios';
 import { CampaignContext } from '../store/campaignStore';
+import { useNavigate } from 'react-router-dom';
 
 const Dashboard = () => {
 
-  const { apiURL } = useContext(CampaignContext)
+  const {user, apiURL } = useContext(CampaignContext)
+  const navigate = useNavigate();
 
   const [pendingCampaigns, setPendingCampaigns] = useState([]);
   const [pendingDeactivations, setPendingDeactivations] = useState([]);
 
+
+  //Fetching Data on Page Render
   useEffect(() => {
+    if(!user || user?.role!=='admin') return navigate('/');
+
+    //Fetching Pending Accounts Deactivation
     const fetchPendingDeactivations = async () => {
       try {
         const res = await axios.get(`${apiURL}/api/admin/account-deletion/pending-requests`, { withCredentials: true });
@@ -29,15 +36,62 @@ const Dashboard = () => {
 
     fetchPendingDeactivations();
 
+    //Fetching Pending Campaigns for Approval
+    const fetchPendingCampaigns = async () => {
+      try {
+        const res = await axios.get(`${apiURL}/api/admin/fund-raise/pending-funds`, { withCredentials: true });
+
+        if (res.data) {
+          console.log(res.data);
+          const requests = res.data.pendingFunds.filter(c=>(!c.isApproved));
+          setPendingCampaigns(requests);
+        }
+      } catch (error) {
+        console.log("Error occured while fetching pending reuests : ",error);
+      }
+    }
+
+    fetchPendingCampaigns();
+
   }, [])
-  const handleApproveCampaign = id => {
-    setPendingCampaigns(cs => cs.filter(c => c.id !== id));
-    console.log('Approved campaign', id);
+
+  //Handling Approval & Rejection of Campaigns
+  const handleApproveCampaign = acc => {
+    const approveCampaign = async()=>{
+      try {
+        const res = await axios.put(`${apiURL}/api/admin/fund-raise/approve-fund/${acc._id}`, {}, { withCredentials: true });
+
+        if (res.data) {
+          console.log(res.data);
+          setPendingCampaigns(cs => cs.filter(c => c._id !== acc._id));
+          console.log('Approved campaign', acc._id);
+        }
+      } catch (error) {
+        console.log("Error occured while fetching pending reuests : ",error);
+      }
+    }
+
+    approveCampaign();
   };
-  const handleRejectCampaign = id => {
-    setPendingCampaigns(cs => cs.filter(c => c.id !== id));
-    console.log('Rejected campaign', id);
+  const handleRejectCampaign = acc => {
+    const rejectCampaign = async()=>{
+      try {
+        const res = await axios.delete(`${apiURL}/api/admin/fund-raise/reject-fund/${acc._id}`, { withCredentials: true });
+
+        if (res.data) {
+          console.log(res.data);
+          setPendingCampaigns(cs => cs.filter(c => c._id !== acc._id));
+          console.log('Rejected campaign', acc._id);
+        }
+      } catch (error) {
+        console.log("Error occured while fetching pending reuests : ",error);
+      }
+    }
+
+    rejectCampaign();
   };
+
+  //Handling Approval & Rejection of Account Deactivations
   const handleApproveDeactivation = acc => {
     const approveDeactivation = async()=>{
       try {
@@ -85,12 +139,12 @@ const Dashboard = () => {
             
             <div key={c._id} className="admin-card">
               <div>
-                <p className="card-title">{c.title}</p>
+                <p className="card-title">{c.fundraiseTitle}</p>
                 <p className="card-sub">By {c.creator}</p>
               </div>
               <div className="card-actions">
-                <button className="btn approve" onClick={() => handleApproveCampaign(c.id)}>Approve</button>
-                <button className="btn reject" onClick={() => handleRejectCampaign(c.id)}>Reject</button>
+                <button className="btn approve" onClick={() => handleApproveCampaign(c)}>Approve</button>
+                <button className="btn reject" onClick={() => handleRejectCampaign(c)}>Reject</button>
               </div>
             </div>
           ))}
