@@ -2,11 +2,11 @@ import { CiSearch } from "react-icons/ci";
 import '../css/Search.css'
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import TrendingFundraisers from "../components/Trending";
 import { useContext, useEffect, useState } from "react";
 import { CampaignContext } from "../store/campaignStore";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import Trending from "../components/Trending";
 
 const Search = () => {
     const [funds, setFunds] = useState([]);
@@ -106,7 +106,7 @@ const Search = () => {
                 </div></>}
             </div>
         </div>
-        <TrendingFundraisers />
+        <Trending />
         <Footer></Footer>
     </>);
 };

@@ -12,6 +12,7 @@ const Donate = () => {
     const [fund, setFund] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const [isProcessing, setIsProcessing] = useState(false);
+    const shareUrl = window.location.href;
 
     const { apiURL } = useContext(CampaignContext)
 
@@ -47,6 +48,7 @@ const Donate = () => {
             if (res) {
                 console.log(res.data);
                 setIsProcessing(false);
+                setModalOpen(false);
             }
         } catch (error) {
             setIsProcessing(false);
@@ -58,9 +60,30 @@ const Donate = () => {
 
     const handleClosePayment = () => setModalOpen(false);
 
-    const handleShare = () => {
-        console.log("Sharing...");
-    }
+    const handleShare = async () => {
+        const shareData = {
+            title: fund.fundraiseTitle,
+            text: `Support "${fund.fundraiseTitle}" on FundRaiseTogether!`,
+            url: shareUrl,
+        };
+
+        if (navigator.share) {
+            try {
+                await navigator.share(shareData);
+            } catch (err) {
+                console.error('Share failed:', err);
+            }
+            return;
+        }
+
+        try {
+            await navigator.clipboard.writeText(shareUrl);
+            alert('Link copied to clipboard!');
+        } catch (err) {
+            console.error('Copy failed:', err);
+            alert(`Please copy this link manually:\n${shareUrl}`);
+        }
+    };
 
     const percent = Math.min((fund?.donationAmount / fund?.totalAmountRaised) * 100, 100);
 

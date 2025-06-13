@@ -94,7 +94,7 @@ const Navbar = () => {
           <IoMdArrowDropdown className='dropdown-container-icon' />
           <ul className='dropdown-menu'>
             <li><a href="/profile">Profile</a></li>
-            <li><a href="/profile/funds">My Funds</a></li>
+            <li><a href="/myfunds">My Funds</a></li>
             {user?.role === 'admin' && <li><a href="/admin-dashboard">Admin Dashboard</a></li>}
             <li><a><span onClick={handleLogout}>Logout</span></a></li>
           </ul>
@@ -117,7 +117,7 @@ const Navbar = () => {
         <li><a href="/discover">Categories</a></li>
         {user?.email? (<>
           <li><a href="/profile">Profile</a></li>
-          <li><a href="/profile/funds">My Funds</a></li>
+          <li><a href="/myfunds">My Funds</a></li>
           <li><a><span onClick={handleLogout}>Logout</span></a></li>
         </>) : (<li><a href="/signin">Sign in <CiLogin /></a></li>)}
 

@@ -1,55 +1,60 @@
+import { useEffect, useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import '../css/Trending.css';
+import axios from 'axios';
+import { CampaignContext } from '../store/campaignStore';
 
-const trending = [
-  {
-    id: 1,
-    title: 'Solar Power for Village School',
-    image: 'https://source.unsplash.com/300x200/?solar,panel',
-    raised: 4200,
-    goal: 5000
-  },
-  {
-    id: 2,
-    title: 'Medical Camp in Rural Area',
-    image: 'https://source.unsplash.com/300x200/?medical,clinic',
-    raised: 3200,
-    goal: 4000
-  },
-  {
-    id: 3,
-    title: 'Clean Water Initiative',
-    image: 'https://source.unsplash.com/300x200/?water,clean',
-    raised: 5500,
-    goal: 6000
-  },
-  {
-    id: 4,
-    title: 'Books for Underprivileged Kids',
-    image: 'https://source.unsplash.com/300x200/?books,children',
-    raised: 1800,
-    goal: 3000
+const Trending=()=> {
+  const [funds, setFunds] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const { apiURL } = useContext(CampaignContext);
+
+  useEffect(() => {
+    (async () => {
+      setIsLoading(true);
+      try {
+        const res = await axios.get(
+          `${apiURL}/api/fund/trending`,
+          { withCredentials: true }
+        );
+        setFunds(res.data.trendingFunds || []);
+        console.log(res.data);
+      } catch (err) {
+        console.error('Error fetching trending funds:', err);
+      } finally {
+        setIsLoading(false);
+      }
+    })();
+  }, []);
+
+  if (isLoading) {
+    return <p className="loading-screen">Loading trending fundraisers…</p>;
   }
-];
 
-const TrendingFundraisers=()=> {
   return (
     <section className="trending-section">
       <h2 className="trending-title">🔥 Trending Fundraisers</h2>
       <div className="trending-grid">
-        {trending.map(f => {
-          const percent = Math.min(100, Math.round((f.raised / f.goal) * 100));
+        {funds.map(f => {
+          const percent = Math.min(
+            100,
+            Math.round((f.donationAmount / f.totalAmountRaised) * 100)
+          );
           return (
-            <Link to={`/donate/${f.id}`} key={f.id} className="trending-card">
+            <Link
+              to={`/donate/${f._id}`}
+              key={f._id}
+              className="trending-card"
+            >
               <div
                 className="card-image"
-                style={{ backgroundImage: `url(${f.image})` }}
+                style={{ backgroundImage: `url(${f.coverImage})` }}
               />
               <div className="card-body">
-                <h3 className="card-title">{f.title}</h3>
+                <h3 className="card-title">{f.fundraiseTitle}</h3>
                 <div className="progress-info">
-                  <span>${f.raised.toLocaleString()}</span>
-                  <span>${f.goal.toLocaleString()}</span>
+                  <span>${f.donationAmount.toLocaleString()}</span>
+                  <span>${f.totalAmountRaised.toLocaleString()}</span>
                 </div>
                 <div className="progress-bar">
                   <div
@@ -66,4 +71,4 @@ const TrendingFundraisers=()=> {
   );
 }
 
-export default TrendingFundraisers; 
+export default Trending;

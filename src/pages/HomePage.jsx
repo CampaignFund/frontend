@@ -4,10 +4,10 @@ import Footer from "../components/Footer";
 import HomeContainer from "../components/HomeContainer";
 import Features from "../components/HomeFeatures";
 import Navbar from "../components/Navbar";
-import TrendingFundraisers from "../components/Trending";
 import '../css/Home.css'
 import { CampaignContext } from "../store/campaignStore";
 import { useLocation } from "react-router-dom";
+import Trending from "../components/Trending";
 
 const Home = () => {
     const { setUser } = useContext(CampaignContext);
@@ -31,7 +31,7 @@ const Home = () => {
             <Navbar></Navbar>
             <HomeContainer></HomeContainer>
             <Divider></Divider>
-            <TrendingFundraisers />
+            <Trending />
             <Features></Features>
             <Footer></Footer>
         </>

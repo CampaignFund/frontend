@@ -11,6 +11,10 @@ import Fundraisers from "./pages/Fundraisers";
 import Dashboard from "./pages/AdminDashboard";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
+import Mission from "./pages/Mission";
+import Partners from "./pages/Partners";
+import Contact from "./pages/Contact";
+import MyFunds from "./pages/MyFunds";
 
 const App = ()=>{
   return (
@@ -22,11 +26,15 @@ const App = ()=>{
         <Route path="/donate/:id" element={<Donate/>} />
         <Route path="/fundraisers/:category?" element={<Fundraisers/>} />
         <Route path="/profile" element={<Profile/>} />
+        <Route path="/myfunds" element={<MyFunds/>} />
         <Route path="/discover" element={<Discover/>} />
         <Route path="/campaign" element={<StartFund/>} />
         <Route path="/forgot-password" element={<ForgotPassword/>} />
         <Route path="/reset-password/:resetToken" element={<ResetPassword/>} />
         <Route path="/admin-dashboard" element={<Dashboard/>} />
+        <Route path="/about/mission" element={<Mission/>} />
+        <Route path="/about/partners" element={<Partners/>} />
+        <Route path="/contact" element={<Contact/>} />
         <Route path="*" element={<PageNotFound/>} />
       </Routes>
     </Router>
