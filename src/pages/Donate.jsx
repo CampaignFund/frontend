@@ -11,6 +11,7 @@ const Donate = () => {
     const [isModalOpen, setModalOpen] = useState(false);
     const [fund, setFund] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
+    const [isProcessing, setIsProcessing] = useState(false);
 
     const { apiURL } = useContext(CampaignContext)
 
@@ -34,9 +35,22 @@ const Donate = () => {
         })();
     }, []);
 
-    const handleDonate = ({ amount }) => {
-        if (!isNaN(amount) && amount > 0) {
-            setCollected(prev => Math.min(prev + amount, goal));
+    const handleDonate = async (paymentData) => {
+        try {
+            setIsProcessing(true);
+            const res = await axios.post(`${apiURL}/api/donar/donate`,
+                paymentData,
+                {
+                    headers: { 'Content-Type': 'multipart/form-data' },
+                }
+            );
+            if (res) {
+                console.log(res.data);
+                setIsProcessing(false);
+            }
+        } catch (error) {
+            setIsProcessing(false);
+            console.log('Some error occured : ', error);
         }
     };
 
@@ -83,7 +97,7 @@ const Donate = () => {
                 </button>
             </div>
         </div></>}
-        <DonateModal isOpen={isModalOpen} onClose={handleClosePayment} onDonate={handleDonate}></DonateModal>
+        <DonateModal isOpen={isModalOpen} onClose={handleClosePayment} onDonate={handleDonate} fund={fund} isProcessing={isProcessing} ></DonateModal>
         <Footer></Footer>
     </>);
 }

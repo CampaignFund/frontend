@@ -50,9 +50,9 @@ const Search = () => {
             </div>
             <div className="search-container">
                 <CiSearch className="search-icon" />
-                <input type="text" name="search" placeholder="Search the fundraisers or nonprofit" onChange={(e)=>setQuery(e.target.value)}/>
+                <input type="text" name="search" placeholder="Search the fundraisers or nonprofit" onChange={(e) => setQuery(e.target.value)} />
             </div>
-            <div className={`suggestion-container ${query.length===0 && 'disabled'}`}>
+            <div className={`suggestion-container ${query.length === 0 && 'disabled'}`}>
                 {isLoading ? <><p className='loading-screen'>Loading...</p></> : <><div className="fundraisers-page">
                     <h1>Searched by "{query}"</h1>
 
