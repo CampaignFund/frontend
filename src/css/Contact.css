@@ -3,6 +3,15 @@
   background-color: var(--color-surface);
   display: flex;
   justify-content: center;
+  position: relative;
+}
+
+.home-icon {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  font-size: 1.5rem;
+  color: var(--color-primary);
 }
 
 .contact-container {
@@ -24,58 +33,43 @@
   margin-bottom: 2rem;
 }
 
-.contact-form {
+.contact-info {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 2rem;
+}
+
+.info-card {
+  background: var(--color-background);
+  padding: 1.5rem;
+  border-radius: 0.8rem;
   display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
-.contact-form label {
-  display: flex;
-  flex-direction: column;
-  text-align: left;
-  font-size: 0.95rem;
-  color: var(--color-text-dark);
-}
-
-.contact-form input,
-.contact-form textarea {
-  margin-top: 0.5rem;
-  padding: 0.6rem;
-  border: 1px solid #ccc;
-  border-radius: 0.5rem;
-  font-size: 1rem;
-  transition: border-color var(--transition-fast);
-}
-
-.contact-form input:focus,
-.contact-form textarea:focus {
-  border-color: var(--color-primary);
-  outline: none;
-}
-
-.contact-button {
-  align-self: center;
-  padding: 0.8rem 2rem;
-  background-color: var(--color-accent);
-  color: var(--color-text-light);
-  border: none;
-  border-radius: 0.5rem;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
+  align-items: center;
+  gap: 1rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
   transition: transform var(--transition-fast), box-shadow var(--transition-fast);
 }
 
-.contact-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+.info-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.1);
 }
 
-.contact-error {
-  margin-top: 1rem;
-  color: red;
-  font-size: 0.9rem;
+.info-icon {
+  font-size: 2rem;
+  color: var(--color-accent);
+}
+
+.info-card h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  color: var(--color-primary);
+}
+
+.info-card p {
+  margin: 0.2rem 0 0;
+  font-size: 1rem;
+  color: var(--color-text-dark);
 }
 
 @media (max-width: 600px) {
@@ -84,8 +78,5 @@
   }
   .contact-text {
     font-size: 1rem;
-  }
-  .contact-button {
-    width: 100%;
   }
 }
