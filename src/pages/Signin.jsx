@@ -1,30 +1,30 @@
-import { useContext, useState } from 'react';
-import { FcGoogle } from 'react-icons/fc';
-import '../css/Signin.css';
-import { Link, useNavigate } from 'react-router-dom';
-import { FiHome } from 'react-icons/fi';
-import axios from 'axios';
-import { CampaignContext } from '../store/campaignStore';
+import { useContext, useState } from "react";
+import { FcGoogle } from "react-icons/fc";
+import "../css/Signin.css";
+import { Link, useNavigate } from "react-router-dom";
+import { FiHome } from "react-icons/fi";
+import axios from "axios";
+import { CampaignContext } from "../store/campaignStore";
 
 const Signin = () => {
   const [isSignUp, setIsSignUp] = useState(false);
   const [error, setError] = useState(null);
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-    phone: ''
-  })
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+    phone: "",
+  });
 
-  const {setUser,apiURL} = useContext(CampaignContext)
+  const { setUser, apiURL } = useContext(CampaignContext);
 
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (isSignUp) {
-      console.log('Signing Up...');
+      console.log("Signing Up...");
 
       //Signup API Request
       const handleSignup = async () => {
@@ -34,61 +34,71 @@ const Signin = () => {
             fullName: formData.name,
             email: formData.email,
             phone: formData.phone,
-            password: formData.password
-          }
+            password: formData.password,
+          };
 
           const res = await axios.post(`${apiURL}/api/auth/signup`, signupBody);
 
           if (res) {
-            console.log(res.data)
+            console.log(res.data);
             setFormData({
-              name: '',
-              email: '',
-              password: '',
-              confirmPassword: '',
-              phone: ''
+              name: "",
+              email: "",
+              password: "",
+              confirmPassword: "",
+              phone: "",
             });
             setIsSignUp(false);
           }
         } catch (error) {
-          console.log('Some error occured : ', error);
-          setError(error.response.data.message || error.response.data.msg || error.message);
+          console.log("Some error occured : ", error);
+          setError(
+            error.response.data.message ||
+              error.response.data.msg ||
+              error.message
+          );
         }
-      }
+      };
 
       handleSignup();
       setError(null);
-
     } else {
-      console.log('Signing In...');
+      console.log("Signing In...");
 
       //Signin API Request
       const handleSignin = async () => {
         try {
-          const res = await axios.post(`${apiURL}/api/auth/login`, {
-            email: formData.email,
-            password: formData.password,
-          },{withCredentials:true});
+          const res = await axios.post(
+            `${apiURL}/api/auth/login`,
+            {
+              email: formData.email,
+              password: formData.password,
+            }
+          );
 
           if (res) {
-            console.log(res.data)
+            console.log(res.data);
             setUser(res.data.user);
 
-            localStorage.setItem('user', JSON.stringify(res.data.user));
+            localStorage.setItem("user", JSON.stringify(res.data.user));
             setFormData({
-              name: '',
-              email: '',
-              password: '',
-              confirmPassword: '',
-              phone: ''
+              name: "",
+              email: "",
+              password: "",
+              confirmPassword: "",
+              phone: "",
             });
-            navigate('/');
+            navigate("/");
           }
         } catch (error) {
-          console.log('Some error occured : ', error);
-          setError(error.response.data.message || error.response.data.msg || error.message);
+          console.log("Some error occured : ", error);
+          setError(
+            error.response.data.message ||
+              error.response.data.msg ||
+              error.message
+          );
         }
-      }
+      };
 
       handleSignin();
       setError(null);
@@ -96,20 +106,23 @@ const Signin = () => {
   };
 
   const handleFormChange = (e) => {
-    setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
+    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
     console.log(formData);
-  }
+  };
 
-  const handleGoogleLogin = async()=>{
-    window.location.href = `${apiURL}/api/auth/google`
-  }
+  const handleGoogleLogin = async () => {
+    window.location.href = `${apiURL}/api/auth/google`;
+  };
 
   return (
     <div className="signin-body">
-      <Link to="/" className="home-icon"><FiHome /></Link>
+      <Link to="/" className="home-icon">
+        <FiHome />
+      </Link>
       <div className="signin-card">
-
-        <h2 className="signin-title">{isSignUp ? 'Create an Account' : 'Welcome Back'}</h2>
+        <h2 className="signin-title">
+          {isSignUp ? "Create an Account" : "Welcome Back"}
+        </h2>
 
         {!isSignUp && (
           <button className="btn google-btn" onClick={handleGoogleLogin}>
@@ -153,7 +166,7 @@ const Signin = () => {
             required
             onChange={handleFormChange}
           />
-            {error && <span className='error-message'>{error}</span>}
+          {error && <span className="error-message">{error}</span>}
           {isSignUp && (
             <input
               type="password"
@@ -175,14 +188,12 @@ const Signin = () => {
             />
           )}
           <button type="submit" className="btn primary-btn">
-            {isSignUp ? 'Sign Up' : 'Sign In'}
+            {isSignUp ? "Sign Up" : "Sign In"}
           </button>
         </form>
 
         <p className="toggle-text">
-          {isSignUp
-            ? 'Already have an account? '
-            : "Don't have an account? "}
+          {isSignUp ? "Already have an account? " : "Don't have an account? "}
           <span
             className="toggle-link"
             onClick={() => {
@@ -190,12 +201,14 @@ const Signin = () => {
               setError(null);
             }}
           >
-            {isSignUp ? 'Sign In' : 'Sign Up'}
+            {isSignUp ? "Sign In" : "Sign Up"}
           </span>
         </p>
-        <p className='reset-text'>
+        <p className="reset-text">
           Forgot password?
-          <Link to={'/forgot-password'}><span className='reset-link'>Reset Password</span></Link>
+          <Link to={"/forgot-password"}>
+            <span className="reset-link">Reset Password</span>
+          </Link>
         </p>
       </div>
     </div>
