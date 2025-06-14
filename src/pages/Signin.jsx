@@ -24,13 +24,17 @@ const Signin = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-     setIsSending(true);
+    setIsSending(true);
     if (isSignUp) {
 
       //Signup API Request
       const handleSignup = async () => {
         try {
-          if (FormData.password != FormData.confirmPassword) return;
+          if (formData.password !== formData.confirmPassword) {
+            setError("Passwords do not match, Please try again");
+            setIsSending(false);
+            return;
+          }
           const signupBody = {
             fullName: formData.name,
             email: formData.email,
@@ -59,13 +63,16 @@ const Signin = () => {
               error.response.data.msg ||
               error.message
           );
+          setIsSending(false);
         }
       };
 
       handleSignup();
       setError(null);
     } else {
+
       //Signin API Request
+
       const handleSignin = async () => {
         try {
           const res = await axios.post(
@@ -100,6 +107,7 @@ const Signin = () => {
               error.response?.data?.msg ||
               error.message
           );
+          setIsSending(false);
         }
       };
 
