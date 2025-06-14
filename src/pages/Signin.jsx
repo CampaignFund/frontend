@@ -9,6 +9,7 @@ import { CampaignContext } from "../store/campaignStore";
 const Signin = () => {
   const [isSignUp, setIsSignUp] = useState(false);
   const [error, setError] = useState(null);
+  const [isSending, setIsSending] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -66,66 +67,41 @@ const Signin = () => {
       console.log("Signing In...");
 
       //Signin API Request
-     const handleSignin = async () => {
-  try {
-    console.log("📤 Sending login request...");
-    const res = await axios.post(
-      `${apiURL}/api/auth/login`,
-      {
-        email: formData.email,
-        password: formData.password,
-      },
-      {
-        withCredentials: true,
-      }
-    );
+      const handleSignin = async () => {
+        try {
+          const res = await axios.post(
+            `${apiURL}/api/auth/login`,
+            {
+              email: formData.email,
+              password: formData.password,
+            },
+            {
+              withCredentials: true,
+            }
+          );
 
-    console.log("✅ Response received from backend:");
-    console.log(res);
+          setUser(res.data.user);
+          localStorage.setItem("user", JSON.stringify(res.data.user));
 
-    // Log cookie headers
-    const setCookieHeader = res.headers["set-cookie"];
-    console.log("🍪 Set-Cookie Header:", setCookieHeader);
+          setFormData({
+            name: "",
+            email: "",
+            password: "",
+            confirmPassword: "",
+            phone: "",
+          });
 
-    // Log all response headers
-    console.log("📦 Response Headers:", res.headers);
-
-    // Log token (if returned in body too)
-    if (res.data?.token) {
-      console.log("🔐 Token in response body:", res.data.token);
-    }
-
-    // Log user info
-    console.log("👤 Logged-in User:", res.data.user);
-
-    // Check document.cookie (if NOT httpOnly)
-    console.log("🕵️ Cookie in browser (document.cookie):", document.cookie);
-
-    // Set user
-    setUser(res.data.user);
-    localStorage.setItem("user", JSON.stringify(res.data.user));
-
-    setFormData({
-      name: "",
-      email: "",
-      password: "",
-      confirmPassword: "",
-      phone: "",
-    });
-
-    navigate("/");
-  } catch (error) {
-    console.log("❌ Some error occurred:");
-    console.log(error);
-
-    setError(
-      error.response?.data?.message ||
-      error.response?.data?.msg ||
-      error.message
-    );
-  }
-};
-
+          navigate("/");
+        } catch (error) {
+          console.log(" Some error occurred:");
+          console.log(error);
+          setError(
+            error.response?.data?.message ||
+              error.response?.data?.msg ||
+              error.message
+          );
+        }
+      };
 
       handleSignin();
       setError(null);
@@ -214,8 +190,13 @@ const Signin = () => {
               onChange={handleFormChange}
             />
           )}
-          <button type="submit" className="btn primary-btn">
+          <button
+            type="submit"
+            className="btn primary-btn"
+            disabled={isSending}
+          >
             {isSignUp ? "Sign Up" : "Sign In"}
+            {isSending ? "Sending…" : "Submit"}
           </button>
         </form>
 
