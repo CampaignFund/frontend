@@ -24,14 +24,18 @@ const Signin = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-     setIsSending(true);
+    setIsSending(true);
     if (isSignUp) {
       console.log("Signing Up...");
 
       //Signup API Request
       const handleSignup = async () => {
         try {
-          if (FormData.password != FormData.confirmPassword) return;
+          if (formData.password !== formData.confirmPassword) {
+            setError("Passwords do not match, Please try again");
+            setIsSending(false);
+            return;
+          }
           const signupBody = {
             fullName: formData.name,
             email: formData.email,
@@ -60,15 +64,13 @@ const Signin = () => {
               error.response.data.msg ||
               error.message
           );
+          setIsSending(false);
         }
       };
 
       handleSignup();
       setError(null);
     } else {
-      console.log("Signing In...");
-
-      //Signin API Request
       const handleSignin = async () => {
         try {
           const res = await axios.post(
@@ -102,6 +104,7 @@ const Signin = () => {
               error.response?.data?.msg ||
               error.message
           );
+          setIsSending(false);
         }
       };
 
@@ -197,8 +200,7 @@ const Signin = () => {
             className="btn primary-btn"
             disabled={isSending}
           >
-            {isSignUp ? "Sign Up" : "Sign In"}
-            {isSending ? "Sending…" : "Submit"}
+            {isSending ? "Sending…" : isSignUp ? "Sign Up" : "Sign In"}
           </button>
         </form>
 
