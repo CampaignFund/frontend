@@ -26,7 +26,7 @@ const Donate = () => {
             try {
                 const res = await axios.get(`${apiURL}/api/fund/fund-list/${fundId}`);
                 if (res.data) {
-                    console.log(res.data);
+                    // console.log(res.data);
                     setFund(res.data.fund);
                     setIsLoading(false);
                 }
@@ -46,7 +46,7 @@ const Donate = () => {
                 }
             );
             if (res) {
-                console.log(res.data);
+                // console.log(res.data);
                 setIsProcessing(false);
                 setModalOpen(false);
             }

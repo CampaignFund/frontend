@@ -30,8 +30,8 @@ const ResetPassword = () => {
                 const res = await axios.post(`${apiURL}/api/auth/reset-password/${resetToken}`, {newPassword:password});
 
                 if(res){
-                    console.log(res);
-                    console.log('Password reset successfully:', password);
+                    // console.log(res);
+                    // console.log('Password reset successfully:', password);
                     navigate('/');
                 }
             }

@@ -17,7 +17,7 @@ const Fundraisers = () => {
   const params = useParams();
   const query = new window.URLSearchParams(params).get('category') || '';
 
-  console.log(query);
+  // console.log(query);
 
   useEffect(() => {
     (async () => {

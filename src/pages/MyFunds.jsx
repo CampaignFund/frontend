@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import '../css/Fundraisers.css';
 import '../css/MyFunds.css';
 import Navbar from '../components/Navbar';
@@ -12,16 +12,19 @@ const MyFunds=()=> {
   const [currentPage, setCurrentPage] = useState(1);
   const perPage = 8;
   const [isLoading, setIsLoading] = useState(false);
-  const { apiURL } = useContext(CampaignContext);
+  const { apiURL, user } = useContext(CampaignContext);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
+    if(!user) return navigate('/signin');
     (async () => {
       setIsLoading(true);
       try {
         const res = await axios.get(`${apiURL}/api/user/my-funds`, {withCredentials:true});
         
         if(res.data){
-            console.log(res.data);
+            // console.log(res.data);
             setFunds(res.data.createdFunds || []);
         }
       } catch (err) {

@@ -25,7 +25,7 @@ const Dashboard = () => {
         const res = await axios.get(`${apiURL}/api/admin/account-deletion/pending-requests`, { withCredentials: true });
 
         if (res.data) {
-          console.log(res.data);
+          // console.log(res.data);
           const requests = res.data.requests.filter(c=>(c.status==='pending'));
           setPendingDeactivations(requests);
         }
@@ -42,7 +42,7 @@ const Dashboard = () => {
         const res = await axios.get(`${apiURL}/api/admin/fund-raise/pending-funds`, { withCredentials: true });
 
         if (res.data) {
-          console.log(res.data);
+          // console.log(res.data);
           const requests = res.data.pendingFunds.filter(c=>(!c.isApproved));
           setPendingCampaigns(requests);
         }
@@ -62,9 +62,9 @@ const Dashboard = () => {
         const res = await axios.put(`${apiURL}/api/admin/fund-raise/approve-fund/${acc._id}`, {}, { withCredentials: true });
 
         if (res.data) {
-          console.log(res.data);
+          // console.log(res.data);
           setPendingCampaigns(cs => cs.filter(c => c._id !== acc._id));
-          console.log('Approved campaign', acc._id);
+          // console.log('Approved campaign', acc._id);
         }
       } catch (error) {
         console.log("Error occured while fetching pending reuests : ",error);
@@ -79,9 +79,9 @@ const Dashboard = () => {
         const res = await axios.delete(`${apiURL}/api/admin/fund-raise/reject-fund/${acc._id}`, { withCredentials: true });
 
         if (res.data) {
-          console.log(res.data);
+          // console.log(res.data);
           setPendingCampaigns(cs => cs.filter(c => c._id !== acc._id));
-          console.log('Rejected campaign', acc._id);
+          // console.log('Rejected campaign', acc._id);
         }
       } catch (error) {
         console.log("Error occured while fetching pending reuests : ",error);
@@ -98,7 +98,7 @@ const Dashboard = () => {
         const res = await axios.put(`${apiURL}/api/admin/account-deletion/approve/${acc._id}`, {}, { withCredentials: true });
 
         if (res.data) {
-          console.log(res.data);
+          // console.log(res.data);
           setPendingDeactivations(ds => ds.filter(d => d._id !== acc._id));
         }
       } catch (error) {
@@ -107,7 +107,7 @@ const Dashboard = () => {
     }
 
     approveDeactivation();
-    console.log('Approved deactivation', acc._id);
+    // console.log('Approved deactivation', acc._id);
   };
   const handleRejectDeactivation = acc => {
     const rejectDeactivation = async()=>{
@@ -115,7 +115,7 @@ const Dashboard = () => {
         const res = await axios.put(`${apiURL}/api/admin/account-deletion/reject/${acc._id}`, {}, { withCredentials: true });
 
         if (res.data) {
-          console.log(res.data);
+          // console.log(res.data);
           setPendingDeactivations(ds => ds.filter(d => d._id !== acc._id));
         }
       } catch (error) {
@@ -124,7 +124,7 @@ const Dashboard = () => {
     }
 
     rejectDeactivation();
-    console.log('Rejected deactivation', acc._id);
+    // console.log('Rejected deactivation', acc._id);
   };
 
   return (<>

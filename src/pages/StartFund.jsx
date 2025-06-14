@@ -1,5 +1,5 @@
 // src/pages/StartFund.jsx
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FiHome } from 'react-icons/fi';
 import '../css/StartFund.css';
@@ -37,7 +37,7 @@ const formatLabel = (key) =>
     .join(' ');
 
 export default function StartFund() {
-  const { apiURL } = useContext(CampaignContext);
+  const { apiURL, user } = useContext(CampaignContext);
   const [isSending, setIsSending] = useState(false);
   const navigate = useNavigate();
   const [step, setStep] = useState(1);
@@ -81,10 +81,14 @@ export default function StartFund() {
       });
   };
 
+  useEffect(() => {
+    if (!user) return navigate('/signin');
+  }, []);
+
   return (
     <div className="start-fund-container">
+      <Link to="/" className="home-icon"><FiHome /></Link>
       <div className="start-fund-page">
-        <Link to="/" className="home-icon"><FiHome /></Link>
         <h1>Start a Fundraising Campaign</h1>
 
         <div className="stepper">
