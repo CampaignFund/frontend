@@ -27,78 +27,66 @@ const Signin = () => {
       console.log("Signing Up...");
 
       //Signup API Request
-      const handleSignup = async () => {
-        try {
-          if (FormData.password != FormData.confirmPassword) return;
-          const signupBody = {
-            fullName: formData.name,
-            email: formData.email,
-            phone: formData.phone,
-            password: formData.password,
-          };
+     const handleSignin = async () => {
+  try {
+    console.log("📤 Sending login request...");
+    const res = await axios.post(
+      `${apiURL}/api/auth/login`,
+      {
+        email: formData.email,
+        password: formData.password,
+      },
+      {
+        withCredentials: true,
+      }
+    );
 
-          const res = await axios.post(`${apiURL}/api/auth/signup`, signupBody);
+    console.log("✅ Response received from backend:");
+    console.log(res);
 
-          if (res) {
-            console.log(res.data);
-            setFormData({
-              name: "",
-              email: "",
-              password: "",
-              confirmPassword: "",
-              phone: "",
-            });
-            setIsSignUp(false);
-          }
-        } catch (error) {
-          console.log("Some error occured : ", error);
-          setError(
-            error.response.data.message ||
-              error.response.data.msg ||
-              error.message
-          );
-        }
-      };
+    // Log cookie headers
+    const setCookieHeader = res.headers["set-cookie"];
+    console.log("🍪 Set-Cookie Header:", setCookieHeader);
 
-      handleSignup();
-      setError(null);
-    } else {
-      console.log("Signing In...");
+    // Log all response headers
+    console.log("📦 Response Headers:", res.headers);
 
-      //Signin API Request
-      const handleSignin = async () => {
-        try {
-          const res = await axios.post(
-            `${apiURL}/api/auth/login`,
-            {
-              email: formData.email,
-              password: formData.password,
-            }
-          );
+    // Log token (if returned in body too)
+    if (res.data?.token) {
+      console.log("🔐 Token in response body:", res.data.token);
+    }
 
-          if (res) {
-            console.log(res.data);
-            setUser(res.data.user);
+    // Log user info
+    console.log("👤 Logged-in User:", res.data.user);
 
-            localStorage.setItem("user", JSON.stringify(res.data.user));
-            setFormData({
-              name: "",
-              email: "",
-              password: "",
-              confirmPassword: "",
-              phone: "",
-            });
-            navigate("/");
-          }
-        } catch (error) {
-          console.log("Some error occured : ", error);
-          setError(
-            error.response.data.message ||
-              error.response.data.msg ||
-              error.message
-          );
-        }
-      };
+    // Check document.cookie (if NOT httpOnly)
+    console.log("🕵️ Cookie in browser (document.cookie):", document.cookie);
+
+    // Set user
+    setUser(res.data.user);
+    localStorage.setItem("user", JSON.stringify(res.data.user));
+
+    setFormData({
+      name: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+      phone: "",
+    });
+
+    navigate("/");
+  } catch (error) {
+    console.log("❌ Some error occurred:");
+    console.log(error);
+
+    setError(
+      error.response?.data?.message ||
+      error.response?.data?.msg ||
+      error.message
+    );
+  }
+};
+
 
       handleSignin();
       setError(null);
