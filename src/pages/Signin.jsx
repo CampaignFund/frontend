@@ -24,6 +24,7 @@ const Signin = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+     setIsSending(true);
     if (isSignUp) {
       console.log("Signing Up...");
 
@@ -50,6 +51,7 @@ const Signin = () => {
               phone: "",
             });
             setIsSignUp(false);
+            setIsSending(false);
           }
         } catch (error) {
           console.log("Some error occured : ", error);
