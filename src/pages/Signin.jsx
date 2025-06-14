@@ -27,6 +27,45 @@ const Signin = () => {
       console.log("Signing Up...");
 
       //Signup API Request
+      const handleSignup = async () => {
+        try {
+          if (FormData.password != FormData.confirmPassword) return;
+          const signupBody = {
+            fullName: formData.name,
+            email: formData.email,
+            phone: formData.phone,
+            password: formData.password,
+          };
+
+          const res = await axios.post(`${apiURL}/api/auth/signup`, signupBody);
+
+          if (res) {
+            console.log(res.data);
+            setFormData({
+              name: "",
+              email: "",
+              password: "",
+              confirmPassword: "",
+              phone: "",
+            });
+            setIsSignUp(false);
+          }
+        } catch (error) {
+          console.log("Some error occured : ", error);
+          setError(
+            error.response.data.message ||
+              error.response.data.msg ||
+              error.message
+          );
+        }
+      };
+
+      handleSignup();
+      setError(null);
+    } else {
+      console.log("Signing In...");
+
+      //Signin API Request
      const handleSignin = async () => {
   try {
     console.log("📤 Sending login request...");
