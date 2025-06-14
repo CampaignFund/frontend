@@ -26,7 +26,6 @@ const Signin = () => {
     e.preventDefault();
      setIsSending(true);
     if (isSignUp) {
-      console.log("Signing Up...");
 
       //Signup API Request
       const handleSignup = async () => {
@@ -42,7 +41,7 @@ const Signin = () => {
           const res = await axios.post(`${apiURL}/api/auth/signup`, signupBody);
 
           if (res) {
-            console.log(res.data);
+            // console.log(res.data);
             setFormData({
               name: "",
               email: "",
@@ -66,8 +65,6 @@ const Signin = () => {
       handleSignup();
       setError(null);
     } else {
-      console.log("Signing In...");
-
       //Signin API Request
       const handleSignin = async () => {
         try {
@@ -84,6 +81,7 @@ const Signin = () => {
 
           setUser(res.data.user);
           localStorage.setItem("user", JSON.stringify(res.data.user));
+          setIsSending(false);
 
           setFormData({
             name: "",
@@ -112,7 +110,6 @@ const Signin = () => {
 
   const handleFormChange = (e) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-    console.log(formData);
   };
 
   const handleGoogleLogin = async () => {
@@ -197,8 +194,7 @@ const Signin = () => {
             className="btn primary-btn"
             disabled={isSending}
           >
-            {isSignUp ? "Sign Up" : "Sign In"}
-            {isSending ? "Sending…" : "Submit"}
+            {isSending ? "Sending…" : `${isSignUp? "Sign Up" : "Sign In"}`}
           </button>
         </form>
 

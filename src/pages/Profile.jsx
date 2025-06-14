@@ -22,6 +22,7 @@ const Profile = () => {
 
   // Fetch user profile on mount
   useEffect(() => {
+    if(!user) return navigate('/signin');
     (async () => {
       try {
         const res = await axios.get(`${apiURL}/api/user/profile`, {
@@ -89,7 +90,7 @@ const Profile = () => {
         const res = await axios.post(`${apiURL}/api/user/account-deletion/request`, {}, {withCredentials:true});
 
         if(res.data){
-            console.log(res.data);
+            // console.log(res.data);
             setError(null);
         }
     } catch (error) {

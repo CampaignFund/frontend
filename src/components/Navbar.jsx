@@ -50,7 +50,7 @@ const Navbar = () => {
         const res = await axios.post(`${apiURL}/api/auth/logout`, {}, {withCredentials:true});
 
         if (res) {
-          console.log(res.data.message || res.data.msg);
+          // console.log(res.data.message || res.data.msg);
           localStorage.removeItem('user');
           window.location.reload()
         }

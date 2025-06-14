@@ -8,6 +8,7 @@ import '../css/Home.css'
 import { CampaignContext } from "../store/campaignStore";
 import { useLocation } from "react-router-dom";
 import Trending from "../components/Trending";
+import CookieConsent from "../components/CookieConsent";
 
 const Home = () => {
     const { setUser } = useContext(CampaignContext);
@@ -29,6 +30,7 @@ const Home = () => {
     return (
         <>
             <Navbar></Navbar>
+            <CookieConsent></CookieConsent>
             <HomeContainer></HomeContainer>
             <Divider></Divider>
             <Trending />

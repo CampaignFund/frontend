@@ -18,7 +18,7 @@ const Trending=()=> {
           { withCredentials: true }
         );
         setFunds(res.data.trendingFunds || []);
-        console.log(res.data);
+        // console.log(res.data);
       } catch (err) {
         console.error('Error fetching trending funds:', err);
       } finally {
