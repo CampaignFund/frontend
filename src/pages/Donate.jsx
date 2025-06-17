@@ -32,7 +32,7 @@ const Donate = () => {
       try {
         const res = await axios.get(`${apiURL}/api/fund/fund-list/${fundId}`);
         if (res.data) {
-          if (user.email === res.data.fund.userId.email) setIsAuthor(true);
+          if (user?.email === res.data.fund.userId.email) setIsAuthor(true);
           setFund(res.data.fund);
           setReports(res.data.reports);
         }
@@ -42,7 +42,7 @@ const Donate = () => {
         setIsLoading(false);
       }
     })();
-  }, [apiURL, fundId, user.email]);
+  }, [apiURL, fundId, user]);
 
   const handleDonate = async (paymentData) => {
     try {
