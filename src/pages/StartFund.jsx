@@ -1,4 +1,3 @@
-// src/pages/StartFund.jsx
 import { useContext, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FiHome } from 'react-icons/fi';
@@ -55,7 +54,8 @@ export default function StartFund() {
     ifscCode: ''
   });
 
-  const countries = ['United States', 'India', 'United Kingdom', 'Canada', 'Australia'];
+  const countries = ['United States', 'India', 'United Kingdom', 'Canada', 'Australia', 'Pakistan', 'Indonesia', 'Saudi Arabia', 'Iran', 'Iraq', 'Turkey', 'Egypt', 'Bangladesh', 'Malaysia', 'Algeria', 'Nepal', 'Bhutan', 'Maldives', 'Sri Lanka', 'Afghanistan'];
+  countries.sort();
 
   const next = () => setStep((s) => Math.min(5, s + 1));
   const back = () => setStep((s) => Math.max(1, s - 1));

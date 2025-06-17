@@ -47,6 +47,11 @@
   box-shadow: 0 8px 20px rgba(0,0,0,0.1);
 }
 
+.cta-button.donate{
+  margin: 0 0.5rem;
+  background-color: var(--color-primary);
+}
+
 .gallery {
   flex: 1;
   display: grid;
@@ -102,6 +107,10 @@
   .cta-button {
     width: 100%;
     text-align: center;
+  }
+
+  .cta-button.donate{
+    margin: 0.5rem 0;
   }
 }
 

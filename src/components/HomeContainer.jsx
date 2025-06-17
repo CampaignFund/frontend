@@ -13,12 +13,15 @@ const HomeContainer = () => {
       <div className="hero">
         <h1>Welcome to Campaign Fund</h1>
         <p>Empowering change—one campaign at a time.</p>
-        <Link to={'campaign'}><button className="cta-button">Start a Campaign</button></Link>
+        <div className="button-group">
+          <Link to="/campaign"><button className="cta-button">Start a Campaign</button></Link>
+          <Link to="/fundraisers"><button className="cta-button donate">Donate</button></Link>
+        </div>
       </div>
       <div className="gallery">
         {images.map((src, i) => (
           <div key={i} className="gallery-item">
-            <img src={src} alt={`Illustration ${i+1}`} />
+            <img src={src} alt={`Illustration ${i + 1}`} />
           </div>
         ))}
       </div>

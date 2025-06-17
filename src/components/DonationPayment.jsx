@@ -2,7 +2,7 @@ import { useState } from 'react';
 import '../css/DonationModal.css';
 
 const DonateModal = ({ isOpen, onClose, onDonate, fund, isProcessing }) => {
-  const amounts = [5, 10, 50, 100, 200, 500, 1000];
+  const amounts = [5,10,20,50,100,200,300,500,800,1000,2000];
   const [selectedAmount, setSelectedAmount] = useState(amounts[0]);
   const [method, setMethod] = useState('bank');
 
@@ -63,16 +63,16 @@ const DonateModal = ({ isOpen, onClose, onDonate, fund, isProcessing }) => {
             <>
               <h3>Fundraiser Bank Details</h3>
               <label>Account Holder Name
-                <input type="text" value={fund.accountHolderName} readOnly />
+                <input className='readonly-fields' type="text" value={fund.accountHolderName} readOnly />
               </label>
               <label>Account Number
-                <input type="text" value={fund.accountNumber} readOnly />
+                <input className='readonly-fields' type="text" value={fund.accountNumber} readOnly />
               </label>
               <label>Bank Name
-                <input type="text" value={fund.bankName} readOnly />
+                <input className='readonly-fields' type="text" value={fund.bankName} readOnly />
               </label>
               <label>IFSC / Bank Code
-                <input type="text" value={fund.ifscCode} readOnly />
+                <input className='readonly-fields' type="text" value={fund.ifscCode} readOnly />
               </label>
 
               <h3>Your Details</h3>
