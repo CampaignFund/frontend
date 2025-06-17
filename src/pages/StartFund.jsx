@@ -18,6 +18,9 @@ const CATEGORY_OPTIONS = [
   'faith',
   'family',
   'funerals_memorials',
+  'gaza',
+  'islamic_causes',
+  'kashmir',
   'medical',
   'monthly_bills',
   'newly_weds',
@@ -89,7 +92,7 @@ export default function StartFund() {
     <div className="start-fund-container">
       <Link to="/" className="home-icon"><FiHome /></Link>
       <div className="start-fund-page">
-        <h1>Start a Fundraising Campaign</h1>
+        <h1>Start a Zaroorat Campaign</h1>
 
         <div className="stepper">
           {[1, 2, 3, 4, 5].map((n) => (
@@ -163,7 +166,7 @@ export default function StartFund() {
               </label>
 
               <label>
-                Goal Amount ($)
+                Goal Amount (PKR)
                 <input
                   name="totalAmountRaised"
                   type="number"
@@ -178,7 +181,7 @@ export default function StartFund() {
           {step === 3 && (
             <div className="step-content">
               <label>
-                Story Description
+                Short Description
                 <textarea
                   name="fundraiseStory"
                   value={form.fundraiseStory}
@@ -243,7 +246,7 @@ export default function StartFund() {
               <p><strong>ZIP:</strong> {form.postcode}</p>
               <p><strong>Title:</strong> {form.fundraiseTitle}</p>
               <p><strong>Category:</strong> {formatLabel(form.fundCategory)}</p>
-              <p><strong>Goal:</strong> ${form.totalAmountRaised}</p>
+              <p><strong>Goal:</strong> (PKR) {form.totalAmountRaised}</p>
               <p><strong>Story:</strong> {form.fundraiseStory}</p>
               {form.coverImage && (
                 <img

@@ -3,9 +3,9 @@ import { FiZap, FiClock, FiUsers } from 'react-icons/fi';
 import '../css/Divider.css';
 
 const stats = [
-  { icon: <FiZap />, text: 'No fee to start fundraising' },
-  { icon: <FiClock />, text: '1 donation made every second' },
-  { icon: <FiUsers />, text: '8K+ fundraisers started daily' },
+  { icon: <FiZap />, text: 'Connecting donors with local causes ' },
+  { icon: <FiClock />, text: 'Campaigns from Karachi to Lahore to Peshawar' },
+  { icon: <FiUsers />, text: 'Free to start, easy to share' },
 ];
 
 const Divider=()=>{

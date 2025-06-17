@@ -17,7 +17,7 @@ const Home = () => {
     const googleUser = {
         fullName: params.get('name'),
         email: params.get('email'),
-        role:params.get('role')
+        role: params.get('role')
     }
 
     useEffect(() => {

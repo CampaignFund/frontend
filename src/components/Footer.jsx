@@ -4,11 +4,11 @@ const Footer = () => {
   return (
     <footer className="custom-footer">
       <div className="footer-container">
-        <p>&copy; {new Date().getFullYear()} My Website. All rights reserved.</p>
+        <p>&copy; {new Date().getFullYear()} Zaroorat. All rights reserved.</p>
         <p>
           Follow us on{' '}
-          <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">
-            Twitter
+          <a href="https://instargam.com" target="_blank" rel="noopener noreferrer">
+            Instagram
           </a>{' '}
           and{' '}
           <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">

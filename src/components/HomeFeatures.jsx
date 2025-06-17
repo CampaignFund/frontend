@@ -5,23 +5,23 @@ import '../css/HomeFeatures.css';
 const featureList = [
   {
     icon: <FaLeaf />,
-    title: 'Eco-Friendly',
-    desc: 'All our campaigns promote sustainable causes.',
+    title: 'Verified Campaigns',
+    desc: 'All campaigns reviewed for authenticity.',
   },
   {
     icon: <FaHandsHelping />,
-    title: 'Community Driven',
-    desc: 'Built with and for local communities.',
+    title: 'Easy Setup',
+    desc: 'Launch your campaign in minutes.',
   },
   {
     icon: <FaBullhorn />,
-    title: 'Wide Reach',
-    desc: 'Amplify your message to thousands.',
+    title: 'Progress Tracking',
+    desc: 'Monitor donations and engagement in real-time.',
   },
   {
     icon: <FaUsers />,
-    title: 'Easy Collaboration',
-    desc: 'Invite team members in one click.',
+    title: 'Secure Payments',
+    desc: 'Safe transactions with local payment methods.',
   },
 ];
 

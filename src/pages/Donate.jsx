@@ -160,8 +160,8 @@ const Donate = () => {
 
           <div className="donate-right">
             <div className="progress-info">
-              <span>${fund?.donationAmount.toLocaleString()}</span>
-              <span>raised of ${fund?.totalAmountRaised.toLocaleString()}</span>
+              <span>PKR {fund?.donationAmount.toLocaleString()}</span>
+              <span>raised of PKR {fund?.totalAmountRaised.toLocaleString()}</span>
             </div>
             <div className="progress-bar">
               <div className="progress-fill" style={{ width: `${percent}%` }} />

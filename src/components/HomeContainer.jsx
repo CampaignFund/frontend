@@ -2,19 +2,19 @@ import { Link } from 'react-router-dom';
 import '../css/HomeContainer.css';
 
 const images = [
-  '/CFund_1.jpg',
-  '/CFund_2.jpg',
-  '/CFund_3.jpg',
+  '/Home_1.jpg',
+  '/Home_2.jpg',
+  '/Home_3.jpg',
 ];
 
 const HomeContainer = () => {
   return (
     <section className="homeContainer">
       <div className="hero">
-        <h1>Welcome to Campaign Fund</h1>
-        <p>Empowering change—one campaign at a time.</p>
+        <h1>Welcome to Zaroorat</h1>
+        <p style={{textAlign:'center'}}>Introducing Pakistan's first crowdfunding platform - Connecting hearts to causes that matter.</p>
         <div className="button-group">
-          <Link to="/campaign"><button className="cta-button">Start a Campaign</button></Link>
+          <Link to="/campaign"><button className="cta-button">Start your Zaroorat</button></Link>
           <Link to="/fundraisers"><button className="cta-button donate">Donate</button></Link>
         </div>
       </div>

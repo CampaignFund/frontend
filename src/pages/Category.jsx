@@ -8,7 +8,7 @@ import {
 import { AiOutlineSafety, AiOutlineEnvironment, AiOutlineAppstore } from 'react-icons/ai';
 import { PiDogFill } from 'react-icons/pi';
 import { RiCommunityLine } from 'react-icons/ri';
-import { GiTrophyCup, GiTombstone, GiCakeSlice } from 'react-icons/gi';
+import { GiTrophyCup, GiTombstone, GiCakeSlice, GiMountainCave } from 'react-icons/gi';
 import {
   FaBriefcase,
   FaPaintBrush,
@@ -18,6 +18,9 @@ import {
   FaFootballBall,
   FaPlane,
   FaHandsHelping,
+  FaHandHoldingHeart,
+  FaMosque,
+  FaDove,
 } from 'react-icons/fa';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
@@ -35,12 +38,16 @@ const CATEGORY_OPTIONS = [
   'faith',
   'family',
   'funerals_memorials',
+  'gaza',
+  'islamic_causes',
+  'kashmir',
   'medical',
   'monthly_bills',
   'newly_weds',
   'other',
   'sports',
   'travel',
+  'ukraine_relief',
   'volunteer',
   'wishes',
 ];
@@ -66,6 +73,10 @@ const iconMap = {
   travel: <FaPlane />,
   volunteer: <FaHandsHelping />,
   wishes: <GiCakeSlice />,
+  gaza: <FaHandHoldingHeart/>,
+  kashmir:<GiMountainCave/>,
+  islamic_causes: <FaMosque/>,
+  ukraine_relief:<FaDove />,
 };
 
 const labelMap = {
@@ -90,6 +101,9 @@ const labelMap = {
   ukraine_relief: 'Ukraine Relief',
   volunteer: 'Volunteer',
   wishes: 'Wishes',
+  gaza:'Gaza Fund',
+  kashmir:'Kashmir Fund',
+  islamic_causes:'Islamic Causes',
 };
 
 export default function Discover() {
@@ -101,7 +115,7 @@ export default function Discover() {
         <div className="discover-content">
           <div className="content-left">
             <Link to="/campaign" className="start-campaign">
-              Start Campaign
+              Start your Zaroorat
             </Link>
             <div className="categories-grid">
               {CATEGORY_OPTIONS.map((key) => (
@@ -115,7 +129,7 @@ export default function Discover() {
             </div>
           </div>
           <div className="content-right">
-            <img src="/CFund_5.jpg" alt="Donation" />
+            <img src="/Home_4.jpg" alt="Donation" />
           </div>
         </div>
       </main>

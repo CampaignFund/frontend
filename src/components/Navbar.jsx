@@ -88,7 +88,7 @@ const Navbar = () => {
             <li><a href="/discover">Categories</a></li>
           </ul>
         </li>
-        <li id='nav-li'><a href="/">Campaign Fund</a></li>
+        <li id='nav-li'><a href="/">Zaroorat</a></li>
         {user?.email ? (<li id='nav-li' className='dropdown-container'>
           <a href="#">{user.fullName}</a>
           <IoMdArrowDropdown className='dropdown-container-icon' />
@@ -108,7 +108,7 @@ const Navbar = () => {
           <IoMdClose />
         </button>
 
-        <li><a href="/">Campaign Fund</a></li>
+        <li><a href="/">Zaroorat</a></li>
         <li><a href="/search"><CiSearch /> Search</a></li>
         {user?.role === 'admin' && <li><a href="/admin-dashboard">Admin Dashboard</a></li>}
         <li><a href="/about/mission">Mission</a></li>
