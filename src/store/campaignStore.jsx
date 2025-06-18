@@ -17,10 +17,10 @@ const CampaignProvider = ({ children }) => {
   const [token, setToken] = useState(localStorage.getItem('token') || null);
 
   const admin = {
-    accountHolderName: 'Account Holder\'s Name',
-    accountNumber: 'Account Number',
-    bankName: 'Bank Name',
-    ifscCode: 'ABCD12300',
+    accountHolderName: 'ADNAN NIZAMI',
+    accountNumber: '00270320216793',
+    bankName: 'Askari Bank Limited, DHA 1 Branch, Lahore',
+    ifscCode: 'PK91ASCM0000270320216793',
   }
 
   const isValidZip = (postcode, country) => {
