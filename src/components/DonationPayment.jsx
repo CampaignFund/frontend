@@ -1,10 +1,13 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import '../css/DonationModal.css';
+import { CampaignContext } from '../store/campaignStore';
 
 const DonateModal = ({ isOpen, onClose, onDonate, fund, isProcessing }) => {
   const amounts = [50,100,200,300,500,1000,2000,3000,5000,10000];
   const [selectedAmount, setSelectedAmount] = useState(amounts[0]);
   const [method, setMethod] = useState('bank');
+
+  const {admin} = useContext(CampaignContext)
 
   // const [card, setCard] = useState({ number: '', name: '', exp: '', cvv: '' });
   // const [upi, setUpi] = useState('');
@@ -61,18 +64,18 @@ const DonateModal = ({ isOpen, onClose, onDonate, fund, isProcessing }) => {
         <form onSubmit={handleSubmit}>
           {method === 'bank' && (
             <>
-              <h3>Fundraiser Bank Details</h3>
+              <h3>Admin's Bank Details</h3>
               <label>Account Holder Name
-                <input className='readonly-fields' type="text" value={fund.accountHolderName} readOnly />
+                <input className='readonly-fields' type="text" value={admin.accountHolderName} readOnly />
               </label>
               <label>Account Number
-                <input className='readonly-fields' type="text" value={fund.accountNumber} readOnly />
+                <input className='readonly-fields' type="text" value={admin.accountNumber} readOnly />
               </label>
               <label>Bank Name
-                <input className='readonly-fields' type="text" value={fund.bankName} readOnly />
+                <input className='readonly-fields' type="text" value={admin.bankName} readOnly />
               </label>
               <label>IFSC / Bank Code
-                <input className='readonly-fields' type="text" value={fund.ifscCode} readOnly />
+                <input className='readonly-fields' type="text" value={admin.ifscCode} readOnly />
               </label>
 
               <h3>Your Details</h3>

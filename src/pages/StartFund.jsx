@@ -39,7 +39,7 @@ const formatLabel = (key) =>
     .join(' ');
 
 export default function StartFund() {
-  const { apiURL, user } = useContext(CampaignContext);
+  const { apiURL, user, isValidZip } = useContext(CampaignContext);
   const [isSending, setIsSending] = useState(false);
   const navigate = useNavigate();
   const [step, setStep] = useState(1);
@@ -51,10 +51,11 @@ export default function StartFund() {
     totalAmountRaised: '',
     fundraiseStory: '',
     coverImage: null,
-    accountHolderName: '',
-    accountNumber: '',
-    bankName: '',
-    ifscCode: ''
+    fullName: '',
+    email: '',
+    phone: '',
+    cityName: '',
+    cnicImage: null
   });
 
   const countries = ['United States', 'India', 'United Kingdom', 'Canada', 'Australia', 'Pakistan', 'Indonesia', 'Saudi Arabia', 'Iran', 'Iraq', 'Turkey', 'Egypt', 'Bangladesh', 'Malaysia', 'Algeria', 'Nepal', 'Bhutan', 'Maldives', 'Sri Lanka', 'Afghanistan'];
@@ -131,6 +132,7 @@ export default function StartFund() {
                   required
                 />
               </label>
+              {form.postcode && !isValidZip(form.postcode, form.country) && (<span className="error">Invalid ZIP code for selected country.</span>)}
             </div>
           )}
 
@@ -205,35 +207,51 @@ export default function StartFund() {
           {step === 4 && (
             <div className="step-content">
               <label>
-                Account Holder Name
+                Full Name
                 <input
-                  name="accountHolderName"
-                  value={form.accountHolderName}
+                  name="fullName"
+                  value={form.fullName}
                   onChange={handleChange}
+                  required
                 />
               </label>
               <label>
-                Account Number
+                Email
                 <input
-                  name="accountNumber"
-                  value={form.accountNumber}
+                  type='email'
+                  name="email"
+                  value={form.email}
                   onChange={handleChange}
+                  required
                 />
               </label>
               <label>
-                Bank Name
+                Phone
                 <input
-                  name="bankName"
-                  value={form.bankName}
+                  type='number'
+                  name="phone"
+                  value={form.phone}
                   onChange={handleChange}
+                  required
                 />
               </label>
               <label>
-                IFSC Code
+                City Name
                 <input
-                  name="ifscCode"
-                  value={form.ifscCode}
+                  name="cityName"
+                  value={form.cityName}
                   onChange={handleChange}
+                  required
+                />
+              </label>
+              <label>
+                CNIC Image
+                <input
+                  name="cnicImage"
+                  type="file"
+                  accept="image/*"
+                  onChange={handleChange}
+                  required
                 />
               </label>
             </div>
@@ -247,7 +265,7 @@ export default function StartFund() {
               <p><strong>Title:</strong> {form.fundraiseTitle}</p>
               <p><strong>Category:</strong> {formatLabel(form.fundCategory)}</p>
               <p><strong>Goal:</strong> (PKR) {form.totalAmountRaised}</p>
-              <p><strong>Story:</strong> {form.fundraiseStory}</p>
+              <p><strong>Description:</strong> {form.fundraiseStory}</p>
               {form.coverImage && (
                 <img
                   src={URL.createObjectURL(form.coverImage)}
@@ -255,11 +273,11 @@ export default function StartFund() {
                   className="preview-img"
                 />
               )}
-              <h3>Payout To:</h3>
-              <p><strong>Name:</strong> {form.accountHolderName}</p>
-              <p><strong>Number:</strong> {form.accountNumber}</p>
-              <p><strong>Bank:</strong> {form.bankName}</p>
-              <p><strong>IFSC:</strong> {form.ifscCode}</p>
+              <h3>Personal Details:</h3>
+              <p><strong>Full Name:</strong> {form.fullName}</p>
+              <p><strong>Email:</strong> {form.email}</p>
+              <p><strong>Phone:</strong> {form.phone}</p>
+              <p><strong>City:</strong> {form.cityName}</p>
             </div>
           )}
 
@@ -270,7 +288,17 @@ export default function StartFund() {
               </button>
             )}
             {step < 5 ? (
-              <button type="button" className="btn next" onClick={next}>
+              <button
+                type="button"
+                className="btn next"
+                onClick={next}
+                disabled={
+                  (step === 1 && (!form.country || !form.postcode || !isValidZip(form.postcode, form.country))) ||
+                  (step === 2 && (!form.fundraiseTitle || !form.fundCategory || !form.totalAmountRaised)) ||
+                  (step === 3 && (!form.fundraiseStory || !form.coverImage)) ||
+                  (step === 4 && (!form.fullName || !form.email || !form.phone || !form.cityName || !form.cnicImage))
+                }
+              >
                 Next
               </button>
             ) : (
