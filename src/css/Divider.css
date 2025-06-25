@@ -19,10 +19,10 @@
 
 .stat {
   display: flex;
+  text-align: center;
   align-items: center;
   color: var(--color-text-light);
   font-size: 0.9rem;
-  white-space: nowrap;
 }
 
 .stat-icon {
