@@ -32,7 +32,8 @@ const Donate = () => {
       try {
         const res = await axios.get(`${apiURL}/api/fund/fund-list/${fundId}`);
         if (res.data) {
-          if (user?.email === res.data.fund.userId.email) setIsAuthor(true);
+          if (user?.email === res.data.fund?.userId?.email) setIsAuthor(true);
+          console.log(res)
           setFund(res.data.fund);
           setReports(res.data.reports);
         }

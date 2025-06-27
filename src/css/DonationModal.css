@@ -55,6 +55,7 @@ h2 {
   border:1px solid var(--color-primary);
   border-radius:0.5rem;
   cursor:pointer;
+  font-size: 0.6rem;
   transition:background var(--transition-fast),color var(--transition-fast);
 }
 
