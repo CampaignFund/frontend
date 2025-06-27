@@ -51,7 +51,7 @@ const DonateModal = ({ isOpen, onClose, onDonate, fund, isProcessing }) => {
               type="button"
               className={`amount-btn ${selectedAmount === a ? 'selected' : ''}`}
               onClick={() => setSelectedAmount(a)}
-            >Rs.{a}</button>
+            >PKR.{a}</button>
           ))}
         </div>
 

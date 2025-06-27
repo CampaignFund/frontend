@@ -25,7 +25,7 @@ const Contact = () => {
             <FiMail className="info-icon" />
             <div>
               <h3>Email</h3>
-              <p>support@campaignfund.com</p>
+              <p>contactzaroorat@gmail.com</p>
             </div>
           </div>
 

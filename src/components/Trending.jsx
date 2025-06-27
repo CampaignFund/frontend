@@ -53,8 +53,8 @@ const Trending=()=> {
               <div className="card-body">
                 <h3 className="card-title">{f.fundraiseTitle}</h3>
                 <div className="progress-info">
-                  <span>${f.donationAmount.toLocaleString()}</span>
-                  <span>${f.totalAmountRaised.toLocaleString()}</span>
+                  <span>PKR{f.donationAmount.toLocaleString()}</span>
+                  <span>PKR{f.totalAmountRaised.toLocaleString()}</span>
                 </div>
                 <div className="progress-bar">
                   <div
