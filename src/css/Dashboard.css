@@ -31,11 +31,17 @@
 .admin-card {
   background: var(--color-background);
   border-radius: 0.8rem;
+  width: 100%;
   padding: 1rem 1.5rem;
   box-shadow: 0 4px 0px rgba(0,0,0,0.05);
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.admin-card-details{
+  cursor: pointer;
+  padding-right: 60%;
 }
 
 .card-title {
@@ -86,7 +92,7 @@
   font-style: italic;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 824px) {
   .admin-page {
     padding: 4rem 1rem;
   }
@@ -94,6 +100,10 @@
     flex-direction: column;
     align-items: flex-start;
     gap: 1rem;
+  }
+
+  .admin-card-details{
+    padding-right: 80%;
   }
   .card-actions {
     align-self: flex-end;
