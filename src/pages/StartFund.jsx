@@ -1,42 +1,42 @@
-import { useContext, useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { FiHome } from 'react-icons/fi';
-import '../css/StartFund.css';
-import axios from 'axios';
-import { CampaignContext } from '../store/campaignStore';
+import { useContext, useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { FiHome } from "react-icons/fi";
+import "../css/StartFund.css";
+import axios from "axios";
+import { CampaignContext } from "../store/campaignStore";
 
 const CATEGORY_OPTIONS = [
-  'animal',
-  'business',
-  'community',
-  'competition',
-  'creative',
-  'education',
-  'emergencies',
-  'environment',
-  'events',
-  'faith',
-  'family',
-  'funerals_memorials',
-  'gaza',
-  'islamic_causes',
-  'kashmir',
-  'medical',
-  'monthly_bills',
-  'newly_weds',
-  'other',
-  'sports',
-  'travel',
-  'ukraine_relief',
-  'volunteer',
-  'wishes',
+  "animal",
+  "business",
+  "community",
+  "competition",
+  "creative",
+  "education",
+  "emergencies",
+  "environment",
+  "events",
+  "faith",
+  "family",
+  "funerals_memorials",
+  "gaza",
+  "islamic_causes",
+  "kashmir",
+  "medical",
+  "monthly_bills",
+  "newly_weds",
+  "other",
+  "sports",
+  "travel",
+  "ukraine_relief",
+  "volunteer",
+  "wishes",
 ];
 
 const formatLabel = (key) =>
   key
-    .split('_')
+    .split("_")
     .map((word) => word[0]?.toUpperCase() + word.slice(1))
-    .join(' ');
+    .join(" ");
 
 export default function StartFund() {
   const { apiURL, user, isValidZip } = useContext(CampaignContext);
@@ -44,21 +44,47 @@ export default function StartFund() {
   const navigate = useNavigate();
   const [step, setStep] = useState(1);
   const [form, setForm] = useState({
-    country: '',
-    postcode: '',
-    fundraiseTitle: '',
-    fundCategory: '',
-    totalAmountRaised: '',
-    fundraiseStory: '',
+    country: "",
+    postcode: "",
+    fundraiseTitle: "",
+    fundCategory: "",
+    totalAmountRaised: "",
+    fundraiseStory: "",
     coverImage: null,
-    fullName: '',
-    email: '',
-    phone: '',
-    cityName: '',
-    cnicImage: null
+    accountHolderName:'',
+    accountNumber: '',
+    ifscCode: '',
+    bankCode:'',
+    bankName:'',
+    fullName: "",
+    email: "",
+    phone: "",
+    cityName: "",
+    cnicImage: null,
   });
 
-  const countries = ['United States', 'India', 'United Kingdom', 'Canada', 'Australia', 'Pakistan', 'Indonesia', 'Saudi Arabia', 'Iran', 'Iraq', 'Turkey', 'Egypt', 'Bangladesh', 'Malaysia', 'Algeria', 'Nepal', 'Bhutan', 'Maldives', 'Sri Lanka', 'Afghanistan'];
+  const countries = [
+    "United States",
+    "India",
+    "United Kingdom",
+    "Canada",
+    "Australia",
+    "Pakistan",
+    "Indonesia",
+    "Saudi Arabia",
+    "Iran",
+    "Iraq",
+    "Turkey",
+    "Egypt",
+    "Bangladesh",
+    "Malaysia",
+    "Algeria",
+    "Nepal",
+    "Bhutan",
+    "Maldives",
+    "Sri Lanka",
+    "Afghanistan",
+  ];
   countries.sort();
 
   const next = () => setStep((s) => Math.min(5, s + 1));
@@ -73,31 +99,33 @@ export default function StartFund() {
     axios
       .post(`${apiURL}/api/fund/create-fundraise`, form, {
         withCredentials: true,
-        headers: { 'Content-Type': 'multipart/form-data' },
+        headers: { "Content-Type": "multipart/form-data" },
       })
       .then((res) => {
         setIsSending(false);
-        navigate('/');
+        navigate("/");
       })
       .catch((err) => {
-        console.error('Error creating fundraiser:', err);
+        console.error("Error creating fundraiser:", err);
         setIsSending(false);
       });
   };
 
   useEffect(() => {
-    if (!user) return navigate('/signin');
+    if (!user) return navigate("/signin");
   }, []);
 
   return (
     <div className="start-fund-container">
-      <Link to="/" className="home-icon"><FiHome /></Link>
+      <Link to="/" className="home-icon">
+        <FiHome />
+      </Link>
       <div className="start-fund-page">
         <h1>Start a Zaroorat Campaign</h1>
 
         <div className="stepper">
           {[1, 2, 3, 4, 5].map((n) => (
-            <div key={n} className={`step ${step >= n ? 'active' : ''}`}>
+            <div key={n} className={`step ${step >= n ? "active" : ""}`}>
               <div className="circle">{n}</div>
               {n < 5 && <div className="line" />}
             </div>
@@ -118,7 +146,9 @@ export default function StartFund() {
                   >
                     <option value="">Select country</option>
                     {countries.map((c) => (
-                      <option key={c} value={c}>{c}</option>
+                      <option key={c} value={c}>
+                        {c}
+                      </option>
                     ))}
                   </select>
                 </div>
@@ -132,7 +162,11 @@ export default function StartFund() {
                   required
                 />
               </label>
-              {form.postcode && !isValidZip(form.postcode, form.country) && (<span className="error">Invalid ZIP code for selected country.</span>)}
+              {form.postcode && !isValidZip(form.postcode, form.country) && (
+                <span className="error">
+                  Invalid ZIP code for selected country.
+                </span>
+              )}
             </div>
           )}
 
@@ -218,7 +252,7 @@ export default function StartFund() {
               <label>
                 Email
                 <input
-                  type='email'
+                  type="email"
                   name="email"
                   value={form.email}
                   onChange={handleChange}
@@ -228,7 +262,7 @@ export default function StartFund() {
               <label>
                 Phone
                 <input
-                  type='number'
+                  type="number"
                   name="phone"
                   value={form.phone}
                   onChange={handleChange}
@@ -240,6 +274,42 @@ export default function StartFund() {
                 <input
                   name="cityName"
                   value={form.cityName}
+                  onChange={handleChange}
+                  required
+                />
+              </label>
+              <label>
+                Account Holder Name
+                <input
+                  name="accountHolderName"
+                  value={form.accountHolderName}
+                  onChange={handleChange}
+                  required
+                />
+              </label>
+              <label>
+                Account Number
+                <input
+                  name="accountNumber"
+                  value={form.accountNumber}
+                  onChange={handleChange}
+                  required
+                />
+              </label>
+              <label>
+                Bank Name
+                <input
+                  name="bankName"
+                  value={form.bankName}
+                  onChange={handleChange}
+                  required
+                />
+              </label>
+              <label>
+                Bank Code
+                <input
+                  name="ifscCode"
+                  value={form.ifscCode}
                   onChange={handleChange}
                   required
                 />
@@ -260,12 +330,24 @@ export default function StartFund() {
           {step === 5 && (
             <div className="step-content review">
               <h2>Review Your Campaign</h2>
-              <p><strong>Country:</strong> {form.country}</p>
-              <p><strong>ZIP:</strong> {form.postcode}</p>
-              <p><strong>Title:</strong> {form.fundraiseTitle}</p>
-              <p><strong>Category:</strong> {formatLabel(form.fundCategory)}</p>
-              <p><strong>Goal:</strong> (PKR) {form.totalAmountRaised}</p>
-              <p><strong>Description:</strong> {form.fundraiseStory}</p>
+              <p>
+                <strong>Country:</strong> {form.country}
+              </p>
+              <p>
+                <strong>ZIP:</strong> {form.postcode}
+              </p>
+              <p>
+                <strong>Title:</strong> {form.fundraiseTitle}
+              </p>
+              <p>
+                <strong>Category:</strong> {formatLabel(form.fundCategory)}
+              </p>
+              <p>
+                <strong>Goal:</strong> (PKR) {form.totalAmountRaised}
+              </p>
+              <p>
+                <strong>Description:</strong> {form.fundraiseStory}
+              </p>
               {form.coverImage && (
                 <img
                   src={URL.createObjectURL(form.coverImage)}
@@ -274,10 +356,18 @@ export default function StartFund() {
                 />
               )}
               <h3>Personal Details:</h3>
-              <p><strong>Full Name:</strong> {form.fullName}</p>
-              <p><strong>Email:</strong> {form.email}</p>
-              <p><strong>Phone:</strong> {form.phone}</p>
-              <p><strong>City:</strong> {form.cityName}</p>
+              <p>
+                <strong>Full Name:</strong> {form.fullName}
+              </p>
+              <p>
+                <strong>Email:</strong> {form.email}
+              </p>
+              <p>
+                <strong>Phone:</strong> {form.phone}
+              </p>
+              <p>
+                <strong>City:</strong> {form.cityName}
+              </p>
             </div>
           )}
 
@@ -293,10 +383,21 @@ export default function StartFund() {
                 className="btn next"
                 onClick={next}
                 disabled={
-                  (step === 1 && (!form.country || !form.postcode || !isValidZip(form.postcode, form.country))) ||
-                  (step === 2 && (!form.fundraiseTitle || !form.fundCategory || !form.totalAmountRaised)) ||
+                  (step === 1 &&
+                    (!form.country ||
+                      !form.postcode ||
+                      !isValidZip(form.postcode, form.country))) ||
+                  (step === 2 &&
+                    (!form.fundraiseTitle ||
+                      !form.fundCategory ||
+                      !form.totalAmountRaised)) ||
                   (step === 3 && (!form.fundraiseStory || !form.coverImage)) ||
-                  (step === 4 && (!form.fullName || !form.email || !form.phone || !form.cityName || !form.cnicImage))
+                  (step === 4 &&
+                    (!form.fullName ||
+                      !form.email ||
+                      !form.phone ||
+                      !form.cityName ||
+                      !form.cnicImage))
                 }
               >
                 Next
@@ -308,7 +409,7 @@ export default function StartFund() {
                 disabled={isSending}
                 onClick={handleSubmit}
               >
-                {isSending ? 'Sending…' : 'Submit'}
+                {isSending ? "Sending…" : "Submit"}
               </button>
             )}
           </div>

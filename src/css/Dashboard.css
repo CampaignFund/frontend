@@ -92,6 +92,66 @@
   font-style: italic;
 }
 
+.fundraiser-details,
+.bank-details {
+  width: 100%;
+  background: var(--color-background);
+  border-radius: 0.8rem;
+  padding: 1.5rem;
+  margin-top: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  font-size: 0.95rem;
+  line-height: 1.4;
+  flex-wrap: wrap;
+}
+
+.fundraiser-details h2,
+.bank-details h2 {
+  font-size: 1.2rem;
+  margin-bottom: 0.8rem;
+  color: var(--color-primary);
+  width: 100%;
+}
+
+.fundraiser-details p,
+.bank-details p {
+  margin: 0.4rem 0;
+  width: 100%;
+}
+
+.fundraiser-details p strong,
+.bank-details p strong {
+  width: 120px;
+  display: inline-block;
+  color: var(--color-text-dark);
+}
+
+@media (max-width: 600px) {
+  .donate-page {
+    flex-direction: column;
+    padding: 1rem;
+  }
+
+  .donate-left,
+  .donate-right {
+    width: 100%;
+  }
+
+  .fundraiser-details,
+  .bank-details {
+    padding: 1rem;
+    margin-top: 1rem;
+    font-size: 0.7rem;
+  }
+
+  .fundraiser-details p strong,
+  .bank-details p strong {
+    width: 100%;
+    display: block;
+    margin-bottom: 0.2rem;
+  }
+}
+
 @media (max-width: 824px) {
   .admin-page {
     padding: 4rem 1rem;

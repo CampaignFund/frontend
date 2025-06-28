@@ -1,21 +1,23 @@
-import { Link, useParams } from 'react-router-dom';
-import '../css/Fundraisers.css';
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
-import { useContext, useEffect, useState } from 'react';
-import axios from 'axios';
-import { CampaignContext } from '../store/campaignStore';
+import { Link, useParams } from "react-router-dom";
+import { AiFillDelete } from "react-icons/ai";
+import "../css/Fundraisers.css";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
+import { useContext, useEffect, useState } from "react";
+import axios from "axios";
+import { CampaignContext } from "../store/campaignStore";
 
 const Fundraisers = () => {
   const [funds, setFunds] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const perPage = 8;
-  const { apiURL } = useContext(CampaignContext);
+  const { apiURL, user } = useContext(CampaignContext);
 
   const [isLoading, setIsLoading] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const params = useParams();
-  const query = new window.URLSearchParams(params).get('category') || '';
+  const query = new window.URLSearchParams(params).get("category") || "";
 
   // console.log(query);
 
@@ -23,13 +25,15 @@ const Fundraisers = () => {
     (async () => {
       setIsLoading(true);
       try {
-        const res = await axios.get(`${apiURL}/api/fund/fund-list?search=${query}`);
+        const res = await axios.get(
+          `${apiURL}/api/fund/fund-list?search=${query}`
+        );
         if (res.data?.funds) {
           setFunds(res.data.funds);
           setIsLoading(false);
         }
       } catch (error) {
-        console.error('Error fetching fundraisers: ', error);
+        console.error("Error fetching fundraisers: ", error);
       }
     })();
   }, [apiURL]);
@@ -41,63 +45,107 @@ const Fundraisers = () => {
   const goToPage = (page) => {
     if (page < 1 || page > totalPages) return;
     setCurrentPage(page);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
+  const deleteFund = async (fundId) => {
+    try {
+      setIsDeleting(true);
+      const res = await axios.delete(
+        `${apiURL}/api/admin/fund-raise/${fundId}`,
+        { withCredentials: true }
+      );
+
+      if (res.data) {
+        console.log(res.data);
+        setFunds((prev) => prev.filter((f) => f._id != fundId));
+      }
+    } catch (error) {
+      console.log("Cannot delete due to error : ", error);
+    } finally {
+      setIsDeleting(false);
+    }
+  };
   return (
     <>
       <Navbar />
-      {isLoading? <><p className='loading-screen'>Loading...</p></> : <><div className="fundraisers-page">
-        <h1>Active Fundraisers</h1>
+      {isLoading ? (
+        <>
+          <p className="loading-screen">Loading...</p>
+        </>
+      ) : (
+        <>
+          <div className="fundraisers-page">
+            <h1>Active Fundraisers</h1>
 
-        {funds.length === 0 ? (
-          <p className="no-funds">No fundraisers available at the moment.</p>
-        ) : (
-          <>
-            <div className="fundraiser-grid">
-              {currentFunds.map((f) => (
-                <Link to={`/donate/${f._id}`} key={f._id} className="fundraiser-card">
-                  <div
-                    className="card-image"
-                    style={{ backgroundImage: `url(${f.coverImage})` }}
-                  />
-                  <div className="card-title">{f.fundraiseTitle}</div>
-                </Link>
-              ))}
-            </div>
+            {funds.length === 0 ? (
+              <p className="no-funds">
+                No fundraisers available at the moment.
+              </p>
+            ) : (
+              <>
+                <div className="fundraiser-grid">
+                  {currentFunds.map((f) => (
+                    <div key={f._id} className="fundraiser-card">
+                      {user?.role === "admin" && (
+                        <AiFillDelete
+                          className="delete-icon"
+                          disabled={isDeleting}
+                          onClick={() => {
+                            const ok = window.confirm(
+                              `Are you sure you want to delete the fundraiser "${f.fundraiseTitle}"? This action cannot be undone.`
+                            );
+                            if (ok) deleteFund(f._id);
+                          }}
+                        />
+                      )}
+                      <Link to={`/donate/${f._id}`}>
+                        <div
+                          className="card-image"
+                          style={{ backgroundImage: `url(${f.coverImage})` }}
+                        />
+                        <div className="card-title">{f.fundraiseTitle}</div>
+                      </Link>
+                    </div>
+                  ))}
+                </div>
 
-            {totalPages > 1 && (
-              <div className="pagination">
-                <button
-                  className="page-button"
-                  onClick={() => goToPage(currentPage - 1)}
-                  disabled={currentPage === 1}
-                >
-                  Prev
-                </button>
+                {totalPages > 1 && (
+                  <div className="pagination">
+                    <button
+                      className="page-button"
+                      onClick={() => goToPage(currentPage - 1)}
+                      disabled={currentPage === 1}
+                    >
+                      Prev
+                    </button>
 
-                {[...Array(totalPages)].map((_, idx) => (
-                  <button
-                    key={idx + 1}
-                    className={`page-button ${currentPage === idx + 1 ? 'active' : ''}`}
-                    onClick={() => goToPage(idx + 1)}
-                  >
-                    {idx + 1}
-                  </button>
-                ))}
+                    {[...Array(totalPages)].map((_, idx) => (
+                      <button
+                        key={idx + 1}
+                        className={`page-button ${
+                          currentPage === idx + 1 ? "active" : ""
+                        }`}
+                        onClick={() => goToPage(idx + 1)}
+                      >
+                        {idx + 1}
+                      </button>
+                    ))}
 
-                <button
-                  className="page-button"
-                  onClick={() => goToPage(currentPage + 1)}
-                  disabled={currentPage === totalPages}
-                >
-                  Next
-                </button>
-              </div>
+                    <button
+                      className="page-button"
+                      onClick={() => goToPage(currentPage + 1)}
+                      disabled={currentPage === totalPages}
+                    >
+                      Next
+                    </button>
+                  </div>
+                )}
+              </>
             )}
-          </>
-        )}
-      </div></> }
+          </div>
+        </>
+      )}
       <Footer />
     </>
   );

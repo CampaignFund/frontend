@@ -166,7 +166,7 @@ const Dashboard = () => {
                   }
                 >
                   <p className="card-title">{c.fundraiseTitle}</p>
-                  <p className="card-sub">By {c.creator}</p>
+                  <p className="card-sub">By {c.userId?.fullName}</p>
                 </div>
                 <div className="card-actions">
                   <button
