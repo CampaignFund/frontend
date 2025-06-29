@@ -35,7 +35,7 @@ const App = ()=>{
         <Route path="/admin-dashboard" element={<Dashboard/>} />
         <Route path="/admin/preview/:fundId" element={<AdminCampaignPreview/>} />
         <Route path="/about/mission" element={<Mission/>} />
-        <Route path="/about/partners" element={<Partners/>} />
+        <Route path="/about/payment_work" element={<Partners/>} />
         <Route path="/contact" element={<Contact/>} />
         <Route path="*" element={<PageNotFound/>} />
       </Routes>

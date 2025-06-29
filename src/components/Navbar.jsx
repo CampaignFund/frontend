@@ -105,7 +105,7 @@ const Navbar = () => {
               <a href="/about/mission">Mission</a>
             </li>
             <li>
-              <a href="/about/partners">Partners</a>
+              <a href="/about/payment_work">How payment work</a>
             </li>
           </ul>
         </li>

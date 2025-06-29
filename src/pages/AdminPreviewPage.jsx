@@ -38,11 +38,10 @@ const AdminCampaignPreview = () => {
     accountNumber,
     bankName,
     ifscCode,
-    cityName,
   } = campaign;
 
   // User personal details from userId
-  const { fullName, email, phone } = userId || {};
+  const { fullName, email, phone, cityName, cnicImage } = userId || {};
 
   const percent = Math.min((donationAmount / totalAmountRaised) * 100, 100);
 
@@ -73,7 +72,9 @@ const AdminCampaignPreview = () => {
       <div className="donate-page">
         {/* Left column: Campaign content */}
         <div className="donate-left">
+          <img src={cnicImage} alt="CNIC" className="cnic-icon" />
           <img src={coverImage} alt="Campaign cover" className="donate-cover" />
+
           <h1 className="donate-title">{fundraiseTitle}</h1>
           <p className="donate-story">{fundraiseStory}</p>
         </div>
@@ -132,7 +133,15 @@ const AdminCampaignPreview = () => {
 
           {/* Approve / Reject buttons */}
           {processing ? (
-            <p style={{textAlign:'center', fontSize:'1rem', marginTop:"2rem"}}>Processing...</p>
+            <p
+              style={{
+                textAlign: "center",
+                fontSize: "1rem",
+                marginTop: "2rem",
+              }}
+            >
+              Processing...
+            </p>
           ) : (
             <div className="card-actions" style={{ marginTop: "2rem" }}>
               <button
