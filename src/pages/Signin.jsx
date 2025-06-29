@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { FiHome } from "react-icons/fi";
 import axios from "axios";
 import { CampaignContext } from "../store/campaignStore";
+import toast, { Toaster } from "react-hot-toast";
 
 const Signin = () => {
   const [isSignUp, setIsSignUp] = useState(false);
@@ -25,16 +26,18 @@ const Signin = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setIsSending(true);
-    if (isSignUp) {
 
-      //Signup API Request
+    if (isSignUp) {
       const handleSignup = async () => {
         try {
           if (formData.password !== formData.confirmPassword) {
-            setError("Passwords do not match, Please try again");
+            const msg = "Passwords do not match, Please try again";
+            setError(msg);
+            toast.error(msg);
             setIsSending(false);
             return;
           }
+
           const signupBody = {
             fullName: formData.name,
             email: formData.email,
@@ -45,7 +48,6 @@ const Signin = () => {
           const res = await axios.post(`${apiURL}/api/auth/signup`, signupBody);
 
           if (res) {
-            // console.log(res.data);
             setFormData({
               name: "",
               email: "",
@@ -53,26 +55,23 @@ const Signin = () => {
               confirmPassword: "",
               phone: "",
             });
+            toast.success("Signup successful! Please log in.");
             setIsSignUp(false);
-            setIsSending(false);
           }
         } catch (error) {
-          console.log("Some error occured : ", error);
-          setError(
-            error.response.data.message ||
-              error.response.data.msg ||
-              error.message
-          );
+          const errMsg =
+            error.response?.data?.message ||
+            error.response?.data?.msg ||
+            error.message;
+          setError(errMsg);
+          toast.error(errMsg);
+        } finally {
           setIsSending(false);
         }
       };
 
       handleSignup();
-      setError(null);
     } else {
-
-      //Signin API Request
-
       const handleSignin = async () => {
         try {
           const res = await axios.post(
@@ -88,7 +87,6 @@ const Signin = () => {
 
           setUser(res.data.user);
           localStorage.setItem("user", JSON.stringify(res.data.user));
-          setIsSending(false);
 
           setFormData({
             name: "",
@@ -98,21 +96,24 @@ const Signin = () => {
             phone: "",
           });
 
-          navigate("/");
+          toast.success("Successfully signed in!");
+          setTimeout(() => {
+             navigate("/");
+          }, 3000);
+         
         } catch (error) {
-          console.log(" Some error occurred:");
-          console.log(error);
-          setError(
+          const errMsg =
             error.response?.data?.message ||
-              error.response?.data?.msg ||
-              error.message
-          );
+            error.response?.data?.msg ||
+            error.message;
+          setError(errMsg);
+          toast.error(errMsg);
+        } finally {
           setIsSending(false);
         }
       };
 
       handleSignin();
-      setError(null);
     }
   };
 
@@ -126,9 +127,11 @@ const Signin = () => {
 
   return (
     <div className="signin-body">
+      <Toaster />
       <Link to="/" className="home-icon">
         <FiHome />
       </Link>
+
       <div className="signin-card">
         <h2 className="signin-title">
           {isSignUp ? "Create an Account" : "Welcome Back"}
@@ -176,33 +179,39 @@ const Signin = () => {
             required
             onChange={handleFormChange}
           />
-          {error && <span className="error-message">{error}</span>}
+
+          {/* Error shown only if it's a string */}
+          {/* {error && typeof error === "string" && (
+            <span className="error-message">{error}</span>
+          )} */}
+
           {isSignUp && (
-            <input
-              type="password"
-              name="confirmPassword"
-              placeholder="Confirm Password"
-              value={formData.confirmPassword}
-              required
-              onChange={handleFormChange}
-            />
+            <>
+              <input
+                type="password"
+                name="confirmPassword"
+                placeholder="Confirm Password"
+                value={formData.confirmPassword}
+                required
+                onChange={handleFormChange}
+              />
+              <input
+                type="number"
+                name="phone"
+                placeholder="Phone Number"
+                value={formData.phone}
+                required
+                onChange={handleFormChange}
+              />
+            </>
           )}
-          {isSignUp && (
-            <input
-              type="number"
-              name="phone"
-              placeholder="Phone Number"
-              value={formData.phone}
-              required
-              onChange={handleFormChange}
-            />
-          )}
+
           <button
             type="submit"
             className="btn primary-btn"
             disabled={isSending}
           >
-            {isSending ? "Sending…" : `${isSignUp? "Sign Up" : "Sign In"}`}
+            {isSending ? "Sending…" : isSignUp ? "Sign Up" : "Sign In"}
           </button>
         </form>
 
@@ -218,9 +227,10 @@ const Signin = () => {
             {isSignUp ? "Sign In" : "Sign Up"}
           </span>
         </p>
+
         <p className="reset-text">
           Forgot password?
-          <Link to={"/forgot-password"}>
+          <Link to="/forgot-password">
             <span className="reset-link">Reset Password</span>
           </Link>
         </p>

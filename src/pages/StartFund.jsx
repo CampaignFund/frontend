@@ -4,7 +4,7 @@ import { FiHome } from "react-icons/fi";
 import "../css/StartFund.css";
 import axios from "axios";
 import { CampaignContext } from "../store/campaignStore";
-
+import toast, { Toaster } from "react-hot-toast";
 const CATEGORY_OPTIONS = [
   "animal",
   "business",
@@ -18,9 +18,6 @@ const CATEGORY_OPTIONS = [
   "faith",
   "family",
   "funerals_memorials",
-  "gaza",
-  "islamic_causes",
-  "kashmir",
   "medical",
   "monthly_bills",
   "newly_weds",
@@ -30,6 +27,9 @@ const CATEGORY_OPTIONS = [
   "ukraine_relief",
   "volunteer",
   "wishes",
+  "gaza",
+  "kashmir",
+  "Islamic_causes",
 ];
 
 const formatLabel = (key) =>
@@ -51,16 +51,16 @@ export default function StartFund() {
     totalAmountRaised: "",
     fundraiseStory: "",
     coverImage: null,
-    accountHolderName:'',
-    accountNumber: '',
-    ifscCode: '',
-    bankCode:'',
-    bankName:'',
-    fullName: "",
-    email: "",
-    phone: "",
-    cityName: "",
-    cnicImage: null,
+    accountHolderName: "",
+    accountNumber: "",
+    ifscCode: "",
+    bankCode: "",
+    bankName: "",
+    // fullName: "",
+    // email: "",
+    // phone: "",
+    // cityName: "",
+    // cnicImage: null,
   });
 
   const countries = [
@@ -93,30 +93,39 @@ export default function StartFund() {
     const { name, value, files } = e.target;
     setForm((f) => ({ ...f, [name]: files ? files[0] : value }));
   };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     setIsSending(true);
+
     axios
       .post(`${apiURL}/api/fund/create-fundraise`, form, {
         withCredentials: true,
         headers: { "Content-Type": "multipart/form-data" },
       })
       .then((res) => {
+        toast.success("Fundraiser created successfully!");
         setIsSending(false);
-        navigate("/");
+        setTimeout(() => {
+          navigate("/");
+        }, 3000);
       })
       .catch((err) => {
         console.error("Error creating fundraiser:", err);
+        toast.error("Failed to create fundraiser");
         setIsSending(false);
       });
   };
 
   useEffect(() => {
-    if (!user) return navigate("/signin");
-  }, []);
+    if (!user) {
+      navigate("/signin");
+    }
+  }, [user, navigate]);
 
   return (
     <div className="start-fund-container">
+      <Toaster />
       <Link to="/" className="home-icon">
         <FiHome />
       </Link>
@@ -240,7 +249,7 @@ export default function StartFund() {
 
           {step === 4 && (
             <div className="step-content">
-              <label>
+              {/* <label>
                 Full Name
                 <input
                   name="fullName"
@@ -277,7 +286,7 @@ export default function StartFund() {
                   onChange={handleChange}
                   required
                 />
-              </label>
+              </label> */}
               <label>
                 Account Holder Name
                 <input
@@ -314,7 +323,7 @@ export default function StartFund() {
                   required
                 />
               </label>
-              <label>
+              {/* <label>
                 CNIC Image
                 <input
                   name="cnicImage"
@@ -323,7 +332,7 @@ export default function StartFund() {
                   onChange={handleChange}
                   required
                 />
-              </label>
+              </label> */}
             </div>
           )}
 
@@ -355,7 +364,7 @@ export default function StartFund() {
                   className="preview-img"
                 />
               )}
-              <h3>Personal Details:</h3>
+              {/* <h3>Personal Details:</h3>
               <p>
                 <strong>Full Name:</strong> {form.fullName}
               </p>
@@ -367,7 +376,7 @@ export default function StartFund() {
               </p>
               <p>
                 <strong>City:</strong> {form.cityName}
-              </p>
+              </p> */}
             </div>
           )}
 
@@ -391,13 +400,7 @@ export default function StartFund() {
                     (!form.fundraiseTitle ||
                       !form.fundCategory ||
                       !form.totalAmountRaised)) ||
-                  (step === 3 && (!form.fundraiseStory || !form.coverImage)) ||
-                  (step === 4 &&
-                    (!form.fullName ||
-                      !form.email ||
-                      !form.phone ||
-                      !form.cityName ||
-                      !form.cnicImage))
+                  (step === 3 && (!form.fundraiseStory || !form.coverImage))
                 }
               >
                 Next

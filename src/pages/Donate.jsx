@@ -5,7 +5,8 @@ import Footer from '../components/Footer';
 import DonateModal from '../components/DonationPayment';
 import axios from 'axios';
 import { CampaignContext } from '../store/campaignStore';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
+import toast, { Toaster } from 'react-hot-toast';
 
 const Donate = () => {
   const [isModalOpen, setModalOpen] = useState(false);
@@ -24,8 +25,7 @@ const Donate = () => {
   const { apiURL, user } = useContext(CampaignContext);
   const params = useParams();
   const fundId = new window.URLSearchParams(params).get('id');
-
-
+  const navigate = useNavigate();
   useEffect(() => {
     (async () => {
       setIsLoading(true);
@@ -33,12 +33,12 @@ const Donate = () => {
         const res = await axios.get(`${apiURL}/api/fund/fund-list/${fundId}`);
         if (res.data) {
           if (user?.email === res.data.fund?.userId?.email) setIsAuthor(true);
-          console.log(res)
           setFund(res.data.fund);
           setReports(res.data.reports);
         }
       } catch (error) {
-        console.log("Some error occured : ", error);
+        toast.error("Failed to load campaign details");
+        console.log("Error:", error);
       } finally {
         setIsLoading(false);
       }
@@ -54,11 +54,15 @@ const Donate = () => {
         { headers: { 'Content-Type': 'multipart/form-data' } }
       );
       if (res) {
+        toast.success("Donation successful!");
         setModalOpen(false);
-        window.location.reload();
+        setTimeout(() => {
+          navigate('/')
+        }, 3000);
       }
     } catch (error) {
-      console.log('Some error occured : ', error);
+      console.log('Error:', error);
+      toast.error("Donation failed.");
     } finally {
       setIsProcessing(false);
     }
@@ -71,15 +75,19 @@ const Donate = () => {
       url: shareUrl,
     };
     if (navigator.share) {
-      try { await navigator.share(shareData); }
-      catch { /* ignore */ }
+      try {
+        await navigator.share(shareData);
+        toast.success("Shared successfully!");
+      } catch {
+        toast.error("Failed to share.");
+      }
       return;
     }
     try {
       await navigator.clipboard.writeText(shareUrl);
-      alert('Link copied to clipboard!');
+      toast.success("Link copied to clipboard!");
     } catch {
-      alert(`Please copy this link:\n${shareUrl}`);
+      toast.error("Copy failed. Please copy manually.");
     }
   };
 
@@ -96,19 +104,19 @@ const Donate = () => {
 
     setIsProcessing(true);
     try {
-      const res = await axios.post(`${apiURL}/api/fund/fund-report`, formData,
-        {
-          withCredentials: true,
-          headers: { 'Content-Type': 'multipart/form-data' }
-        })
+      const res = await axios.post(`${apiURL}/api/fund/fund-report`, formData, {
+        withCredentials: true,
+        headers: { 'Content-Type': 'multipart/form-data' }
+      });
 
       if (res.data) {
+        toast.success("Report submitted!");
         window.location.reload();
       }
     } catch (error) {
-      console.error("Some error occured : ", error);
-    }
-    finally {
+      console.error("Report Error:", error);
+      toast.error("Failed to submit report.");
+    } finally {
       setIsProcessing(false);
       setNewReportDesc('');
       setNewReportImage(null);
@@ -122,6 +130,7 @@ const Donate = () => {
   return (
     <>
       <Navbar />
+      <Toaster position="top-center" />
       {isLoading ? (
         <p className="loading-screen">Loading...</p>
       ) : (
@@ -150,8 +159,12 @@ const Donate = () => {
                       accept="image/*"
                       onChange={e => setNewReportImage(e.target.files[0])}
                     />
-                    <button type="button" className="submit-report-button" disabled={isProcessing} onClick={handleReportSubmit}>
-                      {isProcessing?'Processing...':'Submit Report'}
+                    <button
+                      type="submit"
+                      className="submit-report-button"
+                      disabled={isProcessing}
+                    >
+                      {isProcessing ? 'Processing...' : 'Submit Report'}
                     </button>
                   </form>
                 )}

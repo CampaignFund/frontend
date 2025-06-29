@@ -6,6 +6,8 @@ import "../css/Navbar.css";
 import { CampaignContext } from "../store/campaignStore";
 import axios from "axios";
 
+  import toast,{Toaster} from "react-hot-toast";
+
 import logo from "../../public/ZarooratTransparent.png";
 
 const Navbar = () => {
@@ -46,30 +48,39 @@ const Navbar = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [isSidebarOpen]);
 
-  const handleLogout = () => {
-    const logoutUser = async () => {
-      try {
-        const res = await axios.post(
-          `${apiURL}/api/auth/logout`,
-          {},
-          { withCredentials: true }
-        );
 
-        if (res) {
-          // console.log(res.data.message || res.data.msg);
-          localStorage.removeItem("user");
+const handleLogout = () => {
+  const logoutUser = async () => {
+    try {
+      const res = await axios.post(
+        `${apiURL}/api/auth/logout`,
+        {},
+        { withCredentials: true }
+      );
+
+      if (res) {
+        toast.success(res.data.message || "Logout successful");
+        localStorage.removeItem("user");
+        setTimeout(() => {
           window.location.reload();
-        }
-      } catch (error) {
-        console.log("Error Occured : ", error);
+        }, 1500); // Slight delay so user sees the toast
       }
-    };
-
-    logoutUser();
+    } catch (error) {
+      console.log("Error Occurred:", error);
+      const errMsg =
+        error.response?.data?.message ||
+        error.response?.data?.msg ||
+        error.message;
+      toast.error(errMsg || "Logout failed");
+    }
   };
+
+  logoutUser();
+};
 
   return (
     <nav className={`navbar ${isScrolled ? "shadow" : ""}`}>
+     < Toaster/>
       {/* Toggle icon for mobile */}
       <button
         ref={toggleBtnRef}

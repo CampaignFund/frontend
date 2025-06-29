@@ -5,8 +5,17 @@ import Footer from "../components/Footer";
 import axios from "axios";
 import { CampaignContext } from "../store/campaignStore";
 import { useNavigate } from "react-router-dom";
+import toast, { Toaster } from "react-hot-toast";
 
 const Dashboard = () => {
+  const [loadingApproveCampaigns, setLoadingApproveCampaigns] = useState([]);
+  const [loadingRejectCampaigns, setLoadingRejectCampaigns] = useState([]);
+  const [loadingApproveDeactivations, setLoadingApproveDeactivations] =
+    useState([]);
+  const [loadingRejectDeactivations, setLoadingRejectDeactivations] = useState(
+    []
+  );
+
   const { user, apiURL } = useContext(CampaignContext);
   const navigate = useNavigate();
 
@@ -63,6 +72,7 @@ const Dashboard = () => {
   //Handling Approval & Rejection of Campaigns
   const handleApproveCampaign = (acc) => {
     const approveCampaign = async () => {
+      setLoadingApproveCampaigns((prev) => [...prev, acc._id]);
       try {
         const res = await axios.put(
           `${apiURL}/api/admin/fund-raise/approve-fund/${acc._id}`,
@@ -73,10 +83,15 @@ const Dashboard = () => {
         if (res.data) {
           // console.log(res.data);
           setPendingCampaigns((cs) => cs.filter((c) => c._id !== acc._id));
+          toast.success("Campaign approved!");
           // console.log('Approved campaign', acc._id);
         }
+        setLoadingApproveCampaigns((prev) =>
+          prev.filter((id) => id !== acc._id)
+        );
       } catch (error) {
         console.log("Error occured while fetching pending reuests : ", error);
+        toast.error("Failed to approve campaign.");
       }
     };
 
@@ -84,6 +99,7 @@ const Dashboard = () => {
   };
   const handleRejectCampaign = (acc) => {
     const rejectCampaign = async () => {
+      setLoadingRejectCampaigns((prev) => [...prev, acc._id]);
       try {
         const res = await axios.delete(
           `${apiURL}/api/admin/fund-raise/reject-fund/${acc._id}`,
@@ -93,10 +109,15 @@ const Dashboard = () => {
         if (res.data) {
           // console.log(res.data);
           setPendingCampaigns((cs) => cs.filter((c) => c._id !== acc._id));
+          toast.success("Campaign rejected.");
           // console.log('Rejected campaign', acc._id);
         }
+        setLoadingRejectCampaigns((prev) =>
+          prev.filter((id) => id !== acc._id)
+        );
       } catch (error) {
         console.log("Error occured while fetching pending reuests : ", error);
+        toast.error("Failed to reject campaign.");
       }
     };
 
@@ -106,6 +127,7 @@ const Dashboard = () => {
   //Handling Approval & Rejection of Account Deactivations
   const handleApproveDeactivation = (acc) => {
     const approveDeactivation = async () => {
+      setLoadingApproveDeactivations((prev) => [...prev, acc._id]);
       try {
         const res = await axios.put(
           `${apiURL}/api/admin/account-deletion/approve/${acc._id}`,
@@ -116,9 +138,14 @@ const Dashboard = () => {
         if (res.data) {
           // console.log(res.data);
           setPendingDeactivations((ds) => ds.filter((d) => d._id !== acc._id));
+          toast.success("Account deactivation approved!");
         }
+        setLoadingApproveDeactivations((prev) =>
+          prev.filter((id) => id !== acc._id)
+        );
       } catch (error) {
         console.log("Error occured while fetching pending reuests : ", error);
+        toast.error("Failed to approve deactivation.");
       }
     };
 
@@ -127,6 +154,7 @@ const Dashboard = () => {
   };
   const handleRejectDeactivation = (acc) => {
     const rejectDeactivation = async () => {
+      setLoadingRejectDeactivations((prev) => [...prev, acc._id]);
       try {
         const res = await axios.put(
           `${apiURL}/api/admin/account-deletion/reject/${acc._id}`,
@@ -137,9 +165,14 @@ const Dashboard = () => {
         if (res.data) {
           // console.log(res.data);
           setPendingDeactivations((ds) => ds.filter((d) => d._id !== acc._id));
+          toast.success("Account deactivation rejected.");
         }
+        setLoadingRejectDeactivations((prev) =>
+          prev.filter((id) => id !== acc._id)
+        );
       } catch (error) {
         console.log("Error occured while fetching pending reuests : ", error);
+        toast.error("Failed to reject deactivation.");
       }
     };
 
@@ -149,7 +182,8 @@ const Dashboard = () => {
 
   return (
     <>
-      <Navbar></Navbar>
+      <Navbar />
+      <Toaster />
       <div className="admin-page">
         <h1>Admin Dashboard</h1>
 
@@ -158,7 +192,8 @@ const Dashboard = () => {
           <div className="admin-list">
             {pendingCampaigns.map((c) => (
               <div key={c._id} className="admin-card">
-                <div className="admin-card-details"
+                <div
+                  className="admin-card-details"
                   onClick={() =>
                     navigate(`/admin/preview/${c._id}`, {
                       state: { campaign: c },
@@ -172,14 +207,20 @@ const Dashboard = () => {
                   <button
                     className="btn approve"
                     onClick={() => handleApproveCampaign(c)}
+                    disabled={loadingApproveCampaigns.includes(c._id)}
                   >
-                    Approve
+                    {loadingApproveCampaigns.includes(c._id)
+                      ? "Approving..."
+                      : "Approve"}
                   </button>
                   <button
                     className="btn reject"
                     onClick={() => handleRejectCampaign(c)}
+                    disabled={loadingRejectCampaigns.includes(c._id)}
                   >
-                    Reject
+                    {loadingRejectCampaigns.includes(c._id)
+                      ? "Rejecting..."
+                      : "Reject"}
                   </button>
                 </div>
               </div>
@@ -203,14 +244,21 @@ const Dashboard = () => {
                   <button
                     className="btn approve"
                     onClick={() => handleApproveDeactivation(d)}
+                    disabled={loadingApproveDeactivations.includes(d._id)}
                   >
-                    Approve
+                    {loadingApproveDeactivations.includes(d._id)
+                      ? "Approving..."
+                      : "Approve"}
                   </button>
+
                   <button
                     className="btn reject"
                     onClick={() => handleRejectDeactivation(d)}
+                    disabled={loadingRejectDeactivations.includes(d._id)}
                   >
-                    Reject
+                    {loadingRejectDeactivations.includes(d._id)
+                      ? "Rejecting..."
+                      : "Reject"}
                   </button>
                 </div>
               </div>

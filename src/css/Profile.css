@@ -144,6 +144,15 @@
   text-align: center;
   margin-top: 1rem;
 }
+.cnic{
+  border: #777;
+}
+.cnic input:focus {
+  border-color: var(--color-primary);
+  outline: none;
+}
+
+
 
 @media (max-width: 480px) {
   .profile-card {
