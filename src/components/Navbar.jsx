@@ -6,9 +6,10 @@ import "../css/Navbar.css";
 import { CampaignContext } from "../store/campaignStore";
 import axios from "axios";
 
-  import toast,{Toaster} from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 
 import logo from "../../public/ZarooratTransparent.png";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -17,7 +18,7 @@ const Navbar = () => {
 
   const sidebarRef = useRef(null);
   const toggleBtnRef = useRef(null);
-
+  const navigate = useNavigate();
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 0);
@@ -48,39 +49,39 @@ const Navbar = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [isSidebarOpen]);
 
+  const handleLogout = () => {
+    const logoutUser = async () => {
+      try {
+        const res = await axios.post(
+          `${apiURL}/api/auth/logout`,
+          {},
+          { withCredentials: true }
+        );
 
-const handleLogout = () => {
-  const logoutUser = async () => {
-    try {
-      const res = await axios.post(
-        `${apiURL}/api/auth/logout`,
-        {},
-        { withCredentials: true }
-      );
-
-      if (res) {
-        toast.success(res.data.message || "Logout successful");
-        localStorage.removeItem("user");
-        setTimeout(() => {
-          window.location.reload();
-        }, 1500); // Slight delay so user sees the toast
+        if (res) {
+          toast.success(res.data.message || "Logout successful");
+          localStorage.removeItem("user");
+          setTimeout(() => {
+            navigate("/");
+            window.location.reload();
+          }, 1500); // Slight delay so user sees the toast
+        }
+      } catch (error) {
+        console.log("Error Occurred:", error);
+        const errMsg =
+          error.response?.data?.message ||
+          error.response?.data?.msg ||
+          error.message;
+        toast.error(errMsg || "Logout failed");
       }
-    } catch (error) {
-      console.log("Error Occurred:", error);
-      const errMsg =
-        error.response?.data?.message ||
-        error.response?.data?.msg ||
-        error.message;
-      toast.error(errMsg || "Logout failed");
-    }
-  };
+    };
 
-  logoutUser();
-};
+    logoutUser();
+  };
 
   return (
     <nav className={`navbar ${isScrolled ? "shadow" : ""}`}>
-     < Toaster/>
+      <Toaster />
       {/* Toggle icon for mobile */}
       <button
         ref={toggleBtnRef}

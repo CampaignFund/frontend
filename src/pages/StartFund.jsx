@@ -111,8 +111,9 @@ export default function StartFund() {
         }, 3000);
       })
       .catch((err) => {
+        Error=err;
         console.error("Error creating fundraiser:", err);
-        toast.error("Failed to create fundraiser");
+        toast.error("Please update your profile");
         setIsSending(false);
       });
   };
